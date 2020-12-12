@@ -13,9 +13,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import net.fkm.drawermenutest.R;
-import net.fkm.drawermenutest.fragment.MineFragment;
-import net.fkm.drawermenutest.fragment.MovieFragment;
-import net.fkm.drawermenutest.fragment.MusicFragment;
+import net.fkm.drawermenutest.fragment.CalendarFragment;
+import net.fkm.drawermenutest.fragment.CountdownFragment;
+import net.fkm.drawermenutest.fragment.ListFragment;
 import net.fkm.drawermenutest.utils.GlideUtil;
 import net.fkm.drawermenutest.utils.PerfectClickListener;
 import net.fkm.drawermenutest.utils.StatusBarUtil;
@@ -37,8 +37,9 @@ public class HomeActivity extends BaseActivity {
 
     private long exitTime = 0;
 
-    @BindView(R.id.drawer_layout)
+    @BindView(R.id.drawer_layout)//将字段绑定到指定ID的视图。该视图将自动转换为字段类型
     DrawerLayout drawerLayout;
+
     @BindView(R.id.nav_view)
     NavigationView navView;
 
@@ -46,10 +47,13 @@ public class HomeActivity extends BaseActivity {
     ViewPager vp_content;
 
     private List<Fragment> mFragment;
+
     @BindView(R.id.iv_title_one)
     ImageView ivTitleOne;
+
     @BindView(R.id.iv_title_two)
     ImageView ivTitleTwo;
+
     @BindView(R.id.iv_title_three)
     ImageView ivTitleThree;
 
@@ -63,7 +67,7 @@ public class HomeActivity extends BaseActivity {
     protected void initView() {
         ButterKnife.bind(this);
         StatusBarUtil.setColorNoTranslucentForDrawerLayout(this, drawerLayout,
-                this.getResources().getColor(R.color.colorTheme));
+                this.getResources().getColor(R.color.colorPrimary));
         initDrawerLayout();
         initContentFragment();
     }
@@ -75,19 +79,29 @@ public class HomeActivity extends BaseActivity {
 
     private void initDrawerLayout() {
         navView.inflateHeaderView(R.layout.nav_header_main);
+
         View headerView = navView.getHeaderView(0);
+
         ImageView iv_avatar = headerView.findViewById(R.id.iv_avatar);
+        iv_avatar.setOnClickListener(listener);
+
         GlideUtil.displayCircle(iv_avatar, IC_AVATAR);
+
         LinearLayout ll_nav_account = headerView.findViewById(R.id.ll_nav_account);
         ll_nav_account.setOnClickListener(listener);
+
         LinearLayout ll_nav_password = headerView.findViewById(R.id.ll_nav_password);
         ll_nav_password.setOnClickListener(listener);
+
         LinearLayout ll_nav_feedback = headerView.findViewById(R.id.ll_nav_feedback);
         ll_nav_feedback.setOnClickListener(listener);
+
         LinearLayout ll_nav_version_update = headerView.findViewById(R.id.ll_nav_version_update);
         ll_nav_version_update.setOnClickListener(listener);
+
         LinearLayout ll_nav_score = headerView.findViewById(R.id.ll_nav_score);
         ll_nav_score.setOnClickListener(listener);
+
         LinearLayout ll_nav_account_switch = headerView.findViewById(R.id.ll_nav_account_switch);
         ll_nav_account_switch.setOnClickListener(listener);
 
@@ -139,6 +153,10 @@ public class HomeActivity extends BaseActivity {
                         switchIntent.putExtra("text", "切换账号");
                         startActivity(switchIntent);
                         break;
+                    case R.id.iv_avatar:
+                        Intent avatarIntent = new Intent(HomeActivity.this, LoginActivity.class);
+                        startActivity(avatarIntent);
+                        break;
                     default:
                         break;
                 }
@@ -149,9 +167,9 @@ public class HomeActivity extends BaseActivity {
     private void initContentFragment() {
 
         mFragment = new ArrayList<>();
-        mFragment.add(new MusicFragment());
-        mFragment.add(new MovieFragment());
-        mFragment.add(new MineFragment());
+        mFragment.add(new ListFragment());
+        mFragment.add(new CalendarFragment());
+        mFragment.add(new CountdownFragment());
         //预加载最多的数量
         vp_content.setOffscreenPageLimit(2);
         //设置适配器

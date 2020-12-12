@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class MovieFragment extends Fragment {
+public class CalendarFragment extends Fragment {
 
     private View mContentView;
     private Unbinder unbinder;
@@ -28,7 +28,7 @@ public class MovieFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContext = getActivity();
-        mContentView = inflater.inflate(R.layout.fragment_movie, container, false);
+        mContentView = inflater.inflate(R.layout.fragment_calendar, container, false);
         initView();
         initData();
         return mContentView;

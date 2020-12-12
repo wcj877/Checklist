@@ -6,19 +6,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import net.fkm.drawermenutest.R;
+import net.fkm.drawermenutest.dao.UserDao;
+import net.fkm.drawermenutest.model.UserInfo;
+import net.fkm.drawermenutest.utils.Constants;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class MusicFragment extends Fragment {
+public class CountdownFragment extends Fragment {
 
     private View mContentView;
     private Unbinder unbinder;
     private Activity mContext;
-
+    private TextView djs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,9 +32,13 @@ public class MusicFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContext = getActivity();
-        mContentView = inflater.inflate(R.layout.fragment_music, container, false);
+        mContentView = inflater.inflate(R.layout.fragment_countdown, container, false);
         initView();
         initData();
+        djs = mContentView.findViewById(R.id.text_djs);
+        if (Constants.user != null)
+            djs.setText(Constants.user.getUserId());
+
         return mContentView;
     }
 
@@ -55,5 +63,4 @@ public class MusicFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
-
 }

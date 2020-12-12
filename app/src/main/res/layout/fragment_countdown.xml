@@ -5,13 +5,14 @@
     android:layout_height="match_parent"
     android:background="@color/color_page_bg"
     android:orientation="vertical"
-    tools:context=".fragment.MusicFragment">
+    tools:context=".fragment.ListFragment">
 
     <TextView
+        android:id="@+id/text_djs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="日历Fragment界面"
+        android:text="到计时Fragment界面"
         android:textSize="22sp" />
 
 </LinearLayout>
