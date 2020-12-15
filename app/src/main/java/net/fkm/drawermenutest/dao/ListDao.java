@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import net.fkm.drawermenutest.db.DBOpenHelper;
 import net.fkm.drawermenutest.model.ListInfo;
+import net.fkm.drawermenutest.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -17,12 +18,47 @@ public class ListDao {
         helper=new DBOpenHelper(context);
     }
 
-    //获取id为userId的用户的全部订单
+    //获取id为userId的用户的指定状态的清单
     public ArrayList<ListInfo> queryAll(String userId){
         ArrayList<ListInfo> listInfoList = new ArrayList<>();
 
         db=helper.getReadableDatabase();//初始化SQLiteDatabase
-        Cursor cursor = db.rawQuery("select * from list where user_id='" + userId + "'", null);
+        Cursor cursor;
+
+        if (Constants.listStatus>0){
+            if (Constants.showCompleted){
+                if (Constants.sortBy != null){
+                    cursor = db.rawQuery("select * from list where user_id='" + userId + "' and list_status='" + Constants.listStatus + "' ORDER BY " + Constants.sortBy + " DESC" , null);
+                } else{
+                    cursor = db.rawQuery("select * from list where user_id='" + userId + "' and list_status='" + Constants.listStatus + "'", null);
+                }
+            } else{
+                if (Constants.sortBy != null){
+                    cursor = db.rawQuery("select * from list where user_id='" + userId + "' and list_status='" + Constants.listStatus + "' and isPerfection =0  ORDER BY " + Constants.sortBy + " DESC" , null);
+                } else{
+                    cursor = db.rawQuery("select * from list where user_id='" + userId + "' and list_status='" + Constants.listStatus + "' and isPerfection =0", null);
+                }
+            }
+
+
+        } else {
+
+            if (Constants.showCompleted){
+                if (Constants.sortBy != null){
+                    cursor = db.rawQuery("select * from list where user_id='" + userId + "' ORDER BY " + Constants.sortBy + " DESC" , null);
+                } else{
+                    cursor = db.rawQuery("select * from list where user_id='" + userId + "'", null);
+                }
+            } else{
+                if (Constants.sortBy != null){
+                    cursor = db.rawQuery("select * from list where user_id='" + userId + "' and isPerfection =0  ORDER BY " + Constants.sortBy + " DESC" , null);
+                } else{
+                    cursor = db.rawQuery("select * from list where user_id='" + userId + "' and isPerfection =0", null);
+                }
+            }
+
+//            cursor = db.rawQuery("select * from list where user_id='" + userId + "'", null);
+        }
 
         while (cursor.moveToNext()){
             ListInfo list=new ListInfo();
@@ -33,6 +69,7 @@ public class ListDao {
             list.setDescribe(cursor.getString(cursor.getColumnIndex("describe")));
             list.setListStatus(cursor.getInt(cursor.getColumnIndex("list_status")));
             list.setPriority(cursor.getInt(cursor.getColumnIndex("priority")));
+            list.setIsPerfection(cursor.getInt(cursor.getColumnIndex("isPerfection")));
             list.setTime(cursor.getString(cursor.getColumnIndex("time")));
             listInfoList.add(list);
         }

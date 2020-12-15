@@ -40,6 +40,10 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
+        if (Constants.user != null){
+            Toast.makeText(LoginActivity.this,"已登录",Toast.LENGTH_LONG).show();
+            finish();//关闭该activity
+        }
     }
 
     @Override
@@ -53,11 +57,10 @@ public class LoginActivity extends BaseActivity {
         switch (v.getId()){
             case R.id.login:
                 //登录
-
-
                 if (userDao.findUser(username.getText().toString(), password.getText().toString()) != null){
                     //记录登录用户id
                     Constants.user = userDao.findUser(username.getText().toString(), password.getText().toString());
+                    Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(intent);//跳转至首页
 

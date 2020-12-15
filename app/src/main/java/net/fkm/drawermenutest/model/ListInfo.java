@@ -7,9 +7,18 @@ public class ListInfo {
     private String describe;
     private int listStatus;
     private int priority;
+    private int isPerfection;
     private String time;
 
     public ListInfo() {
+    }
+
+    public int getIsPerfection() {
+        return isPerfection;
+    }
+
+    public void setIsPerfection(int isPerfection) {
+        this.isPerfection = isPerfection;
     }
 
     public int getListId() {

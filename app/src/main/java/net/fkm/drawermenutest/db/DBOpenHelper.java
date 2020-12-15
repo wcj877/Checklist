@@ -39,8 +39,13 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 "`describe` varchar(255) ,"+
                 "`list_status` int ,"+
                 "`priority` int,"+
+                "`isPerfection` int,"+
                 "`time` varchar(20) );");
-        db.execSQL("insert into `list` values ('1','u_101','李小双','511321989800201150','0','0','')");
+        db.execSQL("insert into `list` values ('1','u_101','收集箱','511321989800201150','0','0','0','')");
+        db.execSQL("insert into `list` values ('2','u_101','今天','511321989800201150','1','1','0','')");
+        db.execSQL("insert into `list` values ('3','u_101','学习','511321989800201150','2','2','0','')");
+        db.execSQL("insert into `list` values ('4','u_101','锻炼','511321989800201150','3','3','0','')");
+        db.execSQL("insert into `list` values ('5','u_101','工作','511321989800201150','4','2','0','')");
 
 
         //创建习惯表

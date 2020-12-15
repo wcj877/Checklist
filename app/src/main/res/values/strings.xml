@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">DrawerMenuTest</string>
     <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">账号</string>
+    <string name="prompt_id">账号</string>
     <string name="prompt_password">密码</string>
+    <string name="new_password">新密码</string>
     <string name="action_sign_in">登录</string>
     <string name="action_sign_on">注册</string>
+    <string name="action_modify">修改</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>

@@ -80,6 +80,167 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/ll_nav_inbox"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/inbox" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:drawableEnd="@drawable/arrow_right"
+                    android:text="收集箱"
+                    android:textColor="@color/colorContent"
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/arrow_right" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_nav_today"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/today" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:drawableEnd="@drawable/arrow_right"
+                    android:text="今天"
+                    android:textColor="@color/colorContent"
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/arrow_right" />
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/colorNavLine" />
+
+
+            <LinearLayout
+                android:id="@+id/ll_nav_learn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/learn" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:drawableEnd="@drawable/arrow_right"
+                    android:text="学习"
+                    android:textColor="@color/colorContent"
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/arrow_right" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_nav_workout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/workout" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:drawableEnd="@drawable/arrow_right"
+                    android:text="锻炼"
+                    android:textColor="@color/colorContent"
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/arrow_right" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_nav_job"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/job" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:drawableEnd="@drawable/arrow_right"
+                    android:text="工作"
+                    android:textColor="@color/colorContent"
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/arrow_right" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/colorNavLine" />
+
+
+            <LinearLayout
                 android:id="@+id/ll_nav_account"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -103,7 +264,8 @@
                     android:drawableEnd="@drawable/arrow_right"
                     android:text="个人中心"
                     android:textColor="@color/colorContent"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/arrow_right" />
 
             </LinearLayout>
 
@@ -128,9 +290,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:drawableEnd="@drawable/arrow_right"
-                    android:text="密码设置"
+                    android:text="密码修改"
                     android:textColor="@color/colorContent"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/arrow_right" />
 
             </LinearLayout>
 
@@ -157,7 +320,8 @@
                     android:drawableEnd="@drawable/arrow_right"
                     android:text="意见反馈"
                     android:textColor="@color/colorContent"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/arrow_right" />
 
             </LinearLayout>
 
@@ -184,7 +348,8 @@
                     android:drawableEnd="@drawable/arrow_right"
                     android:text="版本更新"
                     android:textColor="@color/colorContent"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/arrow_right" />
 
             </LinearLayout>
 
@@ -211,7 +376,8 @@
                     android:drawableEnd="@drawable/arrow_right"
                     android:text="给个评分呗"
                     android:textColor="@color/colorContent"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/arrow_right" />
 
             </LinearLayout>
 
@@ -270,7 +436,8 @@
                     android:drawableEnd="@drawable/arrow_right"
                     android:text="退出登录"
                     android:textColor="@color/colorContent"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/arrow_right" />
 
             </LinearLayout>
 

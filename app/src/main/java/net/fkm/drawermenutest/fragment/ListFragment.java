@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.fkm.drawermenutest.R;
+import net.fkm.drawermenutest.activity.HomeActivity;
 import net.fkm.drawermenutest.dao.ListDao;
 import net.fkm.drawermenutest.model.ListInfo;
 
@@ -39,6 +40,7 @@ public class ListFragment extends Fragment {
 
     private Unbinder unbinder;
     private Activity mContext;
+    public static ListFragment instance;
 
     ListView listView;
     ArrayList<ListInfo> list;
@@ -53,15 +55,15 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //给fragment添加布局文件（1.resource:布局的资源id，2.root 填充的根视图，3.attachToRoot 是否将载入的视图绑定到根视图中）
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-
+        instance = this;
 //        initView();
         listView = view.findViewById(R.id.paihanglist);
 
-        ListDao listDao = new ListDao(getContext());
-        list = listDao.queryAll("u_101");
-
-        MyListAdapter myListAdapter=new MyListAdapter(getContext(),list);
-        listView.setAdapter(myListAdapter);
+//        ListDao listDao = new ListDao(getContext());
+//        list = listDao.queryAll("u_101");
+//
+//        MyListAdapter myListAdapter=new MyListAdapter(getContext(),list);
+//        listView.setAdapter(myListAdapter);
         //这个接口定义了当AdapterView中一元素被点击时，一个回调函数被调用
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
@@ -79,6 +81,7 @@ public class ListFragment extends Fragment {
 //            }
 //        });
 
+        showList();
         return view;
     }
 
@@ -100,6 +103,14 @@ public class ListFragment extends Fragment {
 //        super.onDestroyView();
 //        unbinder.unbind();
 //    }
+
+    public void showList(){
+        ListDao listDao = new ListDao(getContext());
+        list = listDao.queryAll("u_101");
+
+        MyListAdapter myListAdapter=new MyListAdapter(getContext(),list);
+        listView.setAdapter(myListAdapter);
+    }
 
     class MyListAdapter extends BaseAdapter{
         LayoutInflater layoutInflater;
@@ -160,7 +171,7 @@ public class ListFragment extends Fragment {
 //            }
 
 
-            switch (listInfo.getListStatus()){
+            switch (listInfo.getIsPerfection()){
                 case 0:
                     viewHolder.confirm.setImageDrawable(getResources().getDrawable((R.mipmap.unfinished)));
                     break;
@@ -176,16 +187,16 @@ public class ListFragment extends Fragment {
 
             switch (listInfo.getPriority()){
                 case 0:
-                    viewHolder.priority.setImageDrawable(getResources().getDrawable((R.mipmap.red)));
+                    viewHolder.priority.setImageDrawable(getResources().getDrawable((R.mipmap.gray)));
                     break;
                 case 1:
-                    viewHolder.priority.setImageDrawable(getResources().getDrawable((R.mipmap.yellow)));
-                    break;
-                case 2:
                     viewHolder.priority.setImageDrawable(getResources().getDrawable((R.mipmap.blue)));
                     break;
+                case 2:
+                    viewHolder.priority.setImageDrawable(getResources().getDrawable((R.mipmap.yellow)));
+                    break;
                 case 4:
-                    viewHolder.priority.setImageDrawable(getResources().getDrawable((R.mipmap.gray)));
+                    viewHolder.priority.setImageDrawable(getResources().getDrawable((R.mipmap.red)));
                     break;
             }
             System.out.println(viewHolder.priority);

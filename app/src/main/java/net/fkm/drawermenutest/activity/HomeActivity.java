@@ -1,24 +1,31 @@
 package net.fkm.drawermenutest.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.support.v7.widget.Toolbar;
 
 import net.fkm.drawermenutest.R;
+import net.fkm.drawermenutest.dao.ListDao;
 import net.fkm.drawermenutest.fragment.CalendarFragment;
 import net.fkm.drawermenutest.fragment.CountdownFragment;
 import net.fkm.drawermenutest.fragment.ListFragment;
+import net.fkm.drawermenutest.utils.Constants;
 import net.fkm.drawermenutest.utils.GlideUtil;
 import net.fkm.drawermenutest.utils.PerfectClickListener;
-import net.fkm.drawermenutest.utils.StatusBarUtil;
+
 import net.fkm.drawermenutest.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -57,6 +64,9 @@ public class HomeActivity extends BaseActivity {
     @BindView(R.id.iv_title_three)
     ImageView ivTitleThree;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     @Override
     protected int getLayoutId() {
         instance = this;
@@ -66,8 +76,8 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        StatusBarUtil.setColorNoTranslucentForDrawerLayout(this, drawerLayout,
-                this.getResources().getColor(R.color.colorPrimary));
+//        StatusBarUtil.setColorNoTranslucentForDrawerLayout(this, drawerLayout,
+//                this.getResources().getColor(R.color.colorPrimary));
         initDrawerLayout();
         initContentFragment();
     }
@@ -108,6 +118,26 @@ public class HomeActivity extends BaseActivity {
         LinearLayout ll_nav_logout = headerView.findViewById(R.id.ll_nav_logout);
         ll_nav_logout.setOnClickListener(this::onClick);
 
+        LinearLayout ll_nav_inbox = headerView.findViewById(R.id.ll_nav_inbox);
+        ll_nav_inbox.setOnClickListener(this::onClick);
+
+        LinearLayout ll_nav_today = headerView.findViewById(R.id.ll_nav_today);
+        ll_nav_today.setOnClickListener(this::onClick);
+
+        LinearLayout ll_nav_learn = headerView.findViewById(R.id.ll_nav_learn);
+        ll_nav_learn.setOnClickListener(this::onClick);
+
+        LinearLayout ll_nav_workout = headerView.findViewById(R.id.ll_nav_workout);
+        ll_nav_workout.setOnClickListener(this::onClick);
+
+        LinearLayout ll_nav_job = headerView.findViewById(R.id.ll_nav_job);
+        ll_nav_job.setOnClickListener(this::onClick);
+
+        toolbar.setTitle("");//设置标题为空
+        //用toolbar替换actionbar
+        setSupportActionBar(toolbar);
+
+
     }
 
     private PerfectClickListener listener = new PerfectClickListener() {
@@ -118,37 +148,37 @@ public class HomeActivity extends BaseActivity {
             drawerLayout.postDelayed(() -> {
                 switch (v.getId()) {
                     case R.id.ll_nav_account:
-                        ToastUtil.showToast("个人中心");
+//                        ToastUtil.showToast("个人中心");
                         Intent accountIntent = new Intent(HomeActivity.this, TestActivity.class);
                         accountIntent.putExtra("text", "个人中心");
                         startActivity(accountIntent);
                         break;
                     case R.id.ll_nav_password:
-                        ToastUtil.showToast("密码设置");
-                        Intent passwordIntent = new Intent(HomeActivity.this, TestActivity.class);
-                        passwordIntent.putExtra("text", "密码设置");
+//                        ToastUtil.showToast("密码修改");
+                        Intent passwordIntent = new Intent(HomeActivity.this, PasswordActivity.class);
+//                        passwordIntent.putExtra("text", "密码设置");
                         startActivity(passwordIntent);
                         break;
                     case R.id.ll_nav_feedback:
-                        ToastUtil.showToast("意见反馈");
+//                        ToastUtil.showToast("意见反馈");
                         Intent feedbackIntent = new Intent(HomeActivity.this, TestActivity.class);
                         feedbackIntent.putExtra("text", "意见反馈");
                         startActivity(feedbackIntent);
                         break;
                     case R.id.ll_nav_version_update:
-                        ToastUtil.showToast("版本更新");
+//                        ToastUtil.showToast("版本更新");
                         Intent updateIntent = new Intent(HomeActivity.this, TestActivity.class);
                         updateIntent.putExtra("text", "版本更新");
                         startActivity(updateIntent);
                         break;
                     case R.id.ll_nav_score:
-                        ToastUtil.showToast("给个评分呗");
+//                        ToastUtil.showToast("给个评分呗");
                         Intent scoreIntent = new Intent(HomeActivity.this, TestActivity.class);
                         scoreIntent.putExtra("text", "给个评分呗");
                         startActivity(scoreIntent);
                         break;
                     case R.id.ll_nav_account_switch:
-                        ToastUtil.showToast("切换账号");
+//                        ToastUtil.showToast("切换账号");
                         Intent switchIntent = new Intent(HomeActivity.this, TestActivity.class);
                         switchIntent.putExtra("text", "切换账号");
                         startActivity(switchIntent);
@@ -165,6 +195,13 @@ public class HomeActivity extends BaseActivity {
     };
 
     private void initContentFragment() {
+
+//        FloatWindow
+//                .with(getApplicationContext())
+//                .setView(view)
+//                .setWidth(100)                   //100px
+//                .setHeight(Screen.width,0.2f)    //屏幕宽度的 20%
+//                .build();
 
         mFragment = new ArrayList<>();
         mFragment.add(new ListFragment());
@@ -231,6 +268,36 @@ public class HomeActivity extends BaseActivity {
                     setCurrentItem(2);
                 }
                 break;
+            case R.id.ll_nav_inbox:
+                //清单切换为收集箱
+                Constants.listStatus = 0;
+                ListFragment.instance.showList();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.ll_nav_today:
+                //清单切换为今天
+                Constants.listStatus = 1;
+                ListFragment.instance.showList();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.ll_nav_learn:
+                //清单切换为学习清单
+                Constants.listStatus = 2;
+                ListFragment.instance.showList();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.ll_nav_workout:
+                //清单切换为锻炼清单
+                Constants.listStatus = 3;
+                ListFragment.instance.showList();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.ll_nav_job:
+                //清单切换为工作清单
+                Constants.listStatus = 4;
+                ListFragment.instance.showList();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
             case R.id.ll_nav_logout:
                 // 退出登录
                 finish();
@@ -287,4 +354,80 @@ public class HomeActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // 膨胀菜单；这会将项目添加到操作栏（如果有）。
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    //监听菜单栏点击事件
+//    private Toolbar.OnMenuItemClickListener onMenuItemClickListener=new Toolbar.OnMenuItemClickListener() {
+//        @Override
+//        public boolean onMenuItemClick(MenuItem menuItem) {
+//            switch (menuItem.getItemId()){
+//                case R.id.menu_add_list://因为使用android.support.v7.widget.SearchView类，
+////                可以在onCreateOptionsMenu(Menu menu)中直接设置监听事件
+//                    Intent intent = new Intent(HomeActivity.this, AddChecklistActivity.class);
+//                    startActivity(intent);
+//                    break;
+//                case R.id.show_complete:
+//                    Constants.showCompleted = true;
+//                    ListFragment.instance.showList();
+//                    break;
+//                case R.id.hide_complete:
+//                    Constants.showCompleted = false;
+//                    ListFragment.instance.showList();
+//                    break;
+//                case R.id.sort_default:
+//                    Constants.sortBy = null;
+//                    ListFragment.instance.showList();
+//                    break;
+//                case R.id.sort_priority:
+//                    Constants.sortBy = "priority";
+//                    ListFragment.instance.showList();
+//                    break;
+//                case R.id.sort_title:
+//                    Constants.sortBy = "list_title";
+//                    ListFragment.instance.showList();
+//                    break;
+//            }
+//            return true;
+//        }
+//    };
+
+    //重写onOptionsItemSelected方法监听菜单栏点击事件
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // TODO Auto-generated method stub
+        switch (item.getItemId()) {
+            case R.id.menu_add_list://因为使用android.support.v7.widget.SearchView类，
+//                可以在onCreateOptionsMenu(Menu menu)中直接设置监听事件
+                Intent intent = new Intent(HomeActivity.this, AddChecklistActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.show_complete:
+                Constants.showCompleted = true;
+                ListFragment.instance.showList();
+                break;
+            case R.id.hide_complete:
+                Constants.showCompleted = false;
+                ListFragment.instance.showList();
+                break;
+            case R.id.sort_default:
+                Constants.sortBy = null;
+                ListFragment.instance.showList();
+                break;
+            case R.id.sort_priority:
+                Constants.sortBy = "priority";
+                ListFragment.instance.showList();
+                break;
+            case R.id.sort_title:
+                Constants.sortBy = "list_title";
+                ListFragment.instance.showList();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

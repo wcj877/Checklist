@@ -44,6 +44,8 @@ public class UserDao {
     public Boolean queryUser(String userId){
         db=helper.getReadableDatabase();//初始化SQLiteDatabase
         Cursor cursor = db.rawQuery("select * from user where user_id='" + userId + "'", null);
+        db.close();
+        cursor.close();
         return cursor.moveToNext();
     }
 
@@ -65,6 +67,19 @@ public class UserDao {
         contentValues.put("user_total",0);
 //        contentValues.put("user_date",);
         insNum = db.insert("user",null,contentValues);
+        db.close();
         return insNum;
     }
+
+    public void updatePassword(String id, String password){
+        db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("update user set password = '" + password + "'  where user_id = '"+id+"';",null);
+        if (cursor.moveToNext()){
+            cursor.close();
+            db.close();
+        }
+        cursor.close();
+        db.close();
+    }
+
 }
