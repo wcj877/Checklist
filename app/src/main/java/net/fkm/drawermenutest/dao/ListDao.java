@@ -1,5 +1,6 @@
 package net.fkm.drawermenutest.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +11,7 @@ import net.fkm.drawermenutest.model.ListInfo;
 import net.fkm.drawermenutest.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListDao {
     private SQLiteOpenHelper helper;//一个帮助程序类，用于管理数据库创建和版本管理。
@@ -73,7 +75,43 @@ public class ListDao {
             list.setTime(cursor.getString(cursor.getColumnIndex("time")));
             listInfoList.add(list);
         }
-
+        db.close();
         return listInfoList;
+    }
+
+    public void updateStatus(int listId, int isPerfection){
+        db = helper.getReadableDatabase();
+        Cursor cursor;
+        if (isPerfection == 1){
+            isPerfection =0;
+        } else {
+            isPerfection = 1;
+        }
+
+        cursor = db.rawQuery("update list set isPerfection = '" + isPerfection + "'  where list_id = '"+ listId +"';",null);
+
+        if (cursor.moveToNext()){
+            cursor.close();
+            db.close();
+        }
+        cursor.close();
+        db.close();
+    }
+
+    public long addList(ListInfo listInfo){
+        db=helper.getWritableDatabase();
+        long insNum=0;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("user_id",listInfo.getUserId());
+        contentValues.put("list_title",listInfo.getListTitle());
+        contentValues.put("describe", listInfo.getDescribe());
+        contentValues.put("list_status", listInfo.getListStatus());
+        contentValues.put("priority", listInfo.getPriority());
+        contentValues.put("isPerfection",0);
+        contentValues.put("time",listInfo.getTime());
+//        contentValues.put("user_date",);
+        insNum = db.insert("list",null,contentValues);
+        db.close();
+        return insNum;
     }
 }

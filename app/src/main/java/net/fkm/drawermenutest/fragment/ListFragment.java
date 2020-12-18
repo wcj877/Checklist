@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import net.fkm.drawermenutest.R;
 import net.fkm.drawermenutest.activity.HomeActivity;
 import net.fkm.drawermenutest.dao.ListDao;
 import net.fkm.drawermenutest.model.ListInfo;
+import net.fkm.drawermenutest.utils.Constants;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,11 +61,8 @@ public class ListFragment extends Fragment {
 //        initView();
         listView = view.findViewById(R.id.paihanglist);
 
-//        ListDao listDao = new ListDao(getContext());
-//        list = listDao.queryAll("u_101");
-//
-//        MyListAdapter myListAdapter=new MyListAdapter(getContext(),list);
-//        listView.setAdapter(myListAdapter);
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         //这个接口定义了当AdapterView中一元素被点击时，一个回调函数被调用
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
@@ -105,8 +104,10 @@ public class ListFragment extends Fragment {
 //    }
 
     public void showList(){
+        if (Constants.user == null)
+            return;
         ListDao listDao = new ListDao(getContext());
-        list = listDao.queryAll("u_101");
+        list = listDao.queryAll(Constants.user.getUserId());
 
         MyListAdapter myListAdapter=new MyListAdapter(getContext(),list);
         listView.setAdapter(myListAdapter);
@@ -152,25 +153,7 @@ public class ListFragment extends Fragment {
             }
             ListInfo listInfo = list.get(position);
 
-
-//            Bitmap unfinished = BitmapFactory.decodeResource(getResources(), R.mipmap.unfinished);//自己本地的图片可以是drawabe/mipmap
-//            Bitmap accomplish = BitmapFactory.decodeResource(getResources(), R.mipmap.accomplish);//自己本地的图片可以是drawabe/mipmap
-//
-//            Bitmap red = BitmapFactory.decodeResource(getResources(), R.mipmap.red);//自己本地的图片可以是drawabe/mipmap
-//            Bitmap yellow = BitmapFactory.decodeResource(getResources(), R.mipmap.yellow);//自己本地的图片可以是drawabe/mipmap
-//            Bitmap blue = BitmapFactory.decodeResource(getResources(), R.mipmap.blue);//自己本地的图片可以是drawabe/mipmap
-//            Bitmap gray = BitmapFactory.decodeResource(getResources(), R.mipmap.gray);//自己本地的图片可以是drawabe/mipmap
-
-//            switch (listInfo.getListStatus()){
-//                case 0:
-//                    viewHolder.confirm.setImageURI(Uri.fromFile(new File(imageTranslateUri(R.mipmap.unfinished))));
-//                    break;
-//                case 1:
-//                    viewHolder.confirm.setImageURI(Uri.fromFile(new File(imageTranslateUri(R.mipmap.accomplish))));
-//                    break;
-//            }
-
-
+            //判断清单是否完成以显示对应的图
             switch (listInfo.getIsPerfection()){
                 case 0:
                     viewHolder.confirm.setImageDrawable(getResources().getDrawable((R.mipmap.unfinished)));
@@ -180,11 +163,10 @@ public class ListFragment extends Fragment {
                     break;
             }
 
-
-            System.out.println(viewHolder.confirm);
-
+            //设置清单的内容
             viewHolder.title.setText(listInfo.getListTitle());
 
+            //判断清单的优先级以显示对应的图
             switch (listInfo.getPriority()){
                 case 0:
                     viewHolder.priority.setImageDrawable(getResources().getDrawable((R.mipmap.gray)));
@@ -199,27 +181,19 @@ public class ListFragment extends Fragment {
                     viewHolder.priority.setImageDrawable(getResources().getDrawable((R.mipmap.red)));
                     break;
             }
-            System.out.println(viewHolder.priority);
+
+            viewHolder.confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ListDao listDao = new ListDao(getContext());
+                    listDao.updateStatus(listInfo.getListId(), listInfo.getIsPerfection());//修改清单是否完成的状态
+                    ListFragment.instance.showList();//刷新清单显示
+                }
+            });
 
             return convertView;
         }
     }
-
-    /**
-     * res/drawable(mipmap)/xxx.png::::uri－－－－>url
-     *
-     * @return
-     */
-    private Uri imageTranslateUri(int resId) {
-
-        Resources r = getResources();
-        Uri uri = Uri.parse(r.getResourcePackageName(resId) + "/"
-                + r.getResourceTypeName(resId) + "/"
-                + r.getResourceEntryName(resId));
-
-        return uri;
-    }
-
     static class ViewHolder {
         public ImageView confirm;
         public TextView title;

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="city">
+        <item>A型</item>
+        <item>B型</item>
+        <item>AB型</item>
+        <item>O型</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="yxj">
+        <item>@drawable/gray</item>
+        <item>@drawable/blue</item>
+        <item>@drawable/yellow</item>
+        <item>@drawable/red</item>
+    </string-array>
+</resources>

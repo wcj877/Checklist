@@ -26,7 +26,7 @@ import net.fkm.drawermenutest.utils.Constants;
 import net.fkm.drawermenutest.utils.GlideUtil;
 import net.fkm.drawermenutest.utils.PerfectClickListener;
 
-import net.fkm.drawermenutest.utils.ToastUtil;
+//import net.fkm.drawermenutest.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +75,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        //指定的{@link Activity}中BindView带注释的字段和方法。当前内容视图用作视图根。
         ButterKnife.bind(this);
 //        StatusBarUtil.setColorNoTranslucentForDrawerLayout(this, drawerLayout,
 //                this.getResources().getColor(R.color.colorPrimary));
@@ -340,7 +341,7 @@ public class HomeActivity extends BaseActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 
             if ((System.currentTimeMillis() - exitTime) > 2000) {
-                ToastUtil.showToast("再按一次退出应用");
+//                ToastUtil.showToast("再按一次退出应用");
                 exitTime = System.currentTimeMillis();
             } else {
 //                    Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -361,41 +362,6 @@ public class HomeActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
-    //监听菜单栏点击事件
-//    private Toolbar.OnMenuItemClickListener onMenuItemClickListener=new Toolbar.OnMenuItemClickListener() {
-//        @Override
-//        public boolean onMenuItemClick(MenuItem menuItem) {
-//            switch (menuItem.getItemId()){
-//                case R.id.menu_add_list://因为使用android.support.v7.widget.SearchView类，
-////                可以在onCreateOptionsMenu(Menu menu)中直接设置监听事件
-//                    Intent intent = new Intent(HomeActivity.this, AddChecklistActivity.class);
-//                    startActivity(intent);
-//                    break;
-//                case R.id.show_complete:
-//                    Constants.showCompleted = true;
-//                    ListFragment.instance.showList();
-//                    break;
-//                case R.id.hide_complete:
-//                    Constants.showCompleted = false;
-//                    ListFragment.instance.showList();
-//                    break;
-//                case R.id.sort_default:
-//                    Constants.sortBy = null;
-//                    ListFragment.instance.showList();
-//                    break;
-//                case R.id.sort_priority:
-//                    Constants.sortBy = "priority";
-//                    ListFragment.instance.showList();
-//                    break;
-//                case R.id.sort_title:
-//                    Constants.sortBy = "list_title";
-//                    ListFragment.instance.showList();
-//                    break;
-//            }
-//            return true;
-//        }
-//    };
 
     //重写onOptionsItemSelected方法监听菜单栏点击事件
     @Override
