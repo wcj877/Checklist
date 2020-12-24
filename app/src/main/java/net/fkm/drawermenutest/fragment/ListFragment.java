@@ -1,5 +1,6 @@
 package net.fkm.drawermenutest.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -7,10 +8,16 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.fkm.drawermenutest.R;
+import net.fkm.drawermenutest.activity.ChecklistActivity;
 import net.fkm.drawermenutest.activity.HomeActivity;
 import net.fkm.drawermenutest.dao.ListDao;
 import net.fkm.drawermenutest.model.ListInfo;
@@ -40,8 +48,6 @@ import butterknife.Unbinder;
  */
 public class ListFragment extends Fragment {
 
-    private Unbinder unbinder;
-    private Activity mContext;
     public static ListFragment instance;
 
     ListView listView;
@@ -58,50 +64,14 @@ public class ListFragment extends Fragment {
         //给fragment添加布局文件（1.resource:布局的资源id，2.root 填充的根视图，3.attachToRoot 是否将载入的视图绑定到根视图中）
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         instance = this;
-//        initView();
         listView = view.findViewById(R.id.paihanglist);
 
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        //这个接口定义了当AdapterView中一元素被点击时，一个回调函数被调用
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                ListInfo listInfo=list.get(position);
-//                Intent intent=new Intent();
-//                intent.putExtra("ispsy","2");
-//                intent.putExtra("name",distributor.getDistributor_name());
-//                intent.putExtra("phone",distributor.getDistributor_tel()+"");
-//                intent.putExtra("idcar",distributor.getDistributor_idcard()+"");
-//                intent.putExtra("jdcs",distributor.getDistributor_singularnum()+"");
-//                Log.i("data",distributor.getDistributor_idcard()+distributor.getDistributor_tel()+"");
-////                intent.setClass(getContext(), PersonInfoActivity.class);
-////                startActivity(intent);
-//            }
-//        });
 
         showList();
         return view;
     }
-
-//    private void initView() {
-//        unbinder = ButterKnife.bind(this, mContentView);
-//    }
-//
-//
-//    @OnClick({})
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            default:
-//                break;
-//        }
-//    }
-//
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        unbinder.unbind();
-//    }
 
     public void showList(){
         if (Constants.user == null)
@@ -137,6 +107,7 @@ public class ListFragment extends Fragment {
             return position;
         }
 
+        @SuppressLint("ResourceAsColor")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder viewHolder = new ViewHolder();
@@ -145,6 +116,7 @@ public class ListFragment extends Fragment {
                 viewHolder.confirm = (ImageView)convertView.findViewById(R.id.list_confirm);
                 viewHolder.title = (TextView) convertView.findViewById(R.id.list_title);
                 viewHolder.priority = (ImageView)convertView.findViewById(R.id.list_priority);
+                viewHolder.line = (ConstraintLayout) convertView.findViewById(R.id.line);
 
                 convertView.setTag(viewHolder);
             }else{
@@ -156,10 +128,13 @@ public class ListFragment extends Fragment {
             //判断清单是否完成以显示对应的图
             switch (listInfo.getIsPerfection()){
                 case 0:
-                    viewHolder.confirm.setImageDrawable(getResources().getDrawable((R.mipmap.unfinished)));
+                    viewHolder.confirm.setImageDrawable(getResources().getDrawable((R.mipmap.unfinished)));//设置未完成图片
                     break;
                 case 1:
-                    viewHolder.confirm.setImageDrawable(getResources().getDrawable((R.mipmap.accomplish)));
+                    viewHolder.confirm.setImageDrawable(getResources().getDrawable((R.mipmap.accomplish)));//设置完成图片
+                    viewHolder.title.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);//添加删除线
+                    viewHolder.title.setTextColor(R.color.gray); //设置前景色为灰色
+
                     break;
             }
 
@@ -182,6 +157,7 @@ public class ListFragment extends Fragment {
                     break;
             }
 
+            //监听清单完成的点击事件
             viewHolder.confirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -191,6 +167,16 @@ public class ListFragment extends Fragment {
                 }
             });
 
+            viewHolder.line.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), ChecklistActivity.class);
+                    intent.putExtra("listInfo", (Parcelable) listInfo);
+                    startActivity(intent);
+                }
+            });
+
+
             return convertView;
         }
     }
@@ -198,6 +184,7 @@ public class ListFragment extends Fragment {
         public ImageView confirm;
         public TextView title;
         public ImageView priority;
+        public ConstraintLayout line;
     }
 }
 

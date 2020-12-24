@@ -1,2 +1,6 @@
+include ':demo'
+include ':library'
 include ':calendarview'
 include ':app'
+project(':library').projectDir = new File(rootDir, 'SwipeMenuListView-master/library/')
+project(':demo').projectDir = new File(rootDir, 'SwipeMenuListView-master/demo/')

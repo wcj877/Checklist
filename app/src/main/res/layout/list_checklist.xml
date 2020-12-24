@@ -9,9 +9,9 @@
 
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         >
 
         <ImageView
@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:src="@mipmap/unfinished"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,13 +30,15 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="left|center"
-            android:text="标题标题"
+            android:text="标题"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/list_priority"
             app:layout_constraintStart_toEndOf="@+id/list_confirm"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
 
         <ImageView

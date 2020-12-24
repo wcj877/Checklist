@@ -1,6 +1,9 @@
 package net.fkm.drawermenutest.model;
 
-public class ListInfo {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class ListInfo implements Parcelable {
     private int listId;
     private String userId;
     private String listTitle;
@@ -89,4 +92,44 @@ public class ListInfo {
                 ", time='" + time + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(listId);
+        dest.writeString(userId);
+        dest.writeString(listTitle);
+        dest.writeString(describe);
+        dest.writeInt(listStatus);
+        dest.writeInt(priority);
+        dest.writeInt(isPerfection);
+        dest.writeString(time);
+    }
+
+    public static final Parcelable.Creator<ListInfo> CREATOR = new Creator<ListInfo>() {
+        @Override
+        public ListInfo createFromParcel(Parcel source) {
+            ListInfo listInfo = new ListInfo();
+
+            listInfo.listId = source.readInt();
+            listInfo.userId = source.readString();
+            listInfo.listTitle = source.readString();
+            listInfo.describe = source.readString();
+            listInfo.listStatus = source.readInt();
+            listInfo.priority = source.readInt();
+            listInfo.isPerfection = source.readInt();
+            listInfo.time = source.readString();
+
+            return listInfo;
+        }
+
+        @Override
+        public ListInfo[] newArray(int size) {
+            return new ListInfo[0];
+        }
+    };
 }

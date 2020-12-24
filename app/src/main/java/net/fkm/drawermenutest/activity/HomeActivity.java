@@ -1,9 +1,7 @@
 package net.fkm.drawermenutest.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
@@ -18,10 +16,11 @@ import android.widget.LinearLayout;
 import android.support.v7.widget.Toolbar;
 
 import net.fkm.drawermenutest.R;
-import net.fkm.drawermenutest.dao.ListDao;
+import net.fkm.drawermenutest.dao.UserDao;
 import net.fkm.drawermenutest.fragment.CalendarFragment;
 import net.fkm.drawermenutest.fragment.CountdownFragment;
 import net.fkm.drawermenutest.fragment.ListFragment;
+import net.fkm.drawermenutest.model.UserInfo;
 import net.fkm.drawermenutest.utils.Constants;
 import net.fkm.drawermenutest.utils.GlideUtil;
 import net.fkm.drawermenutest.utils.PerfectClickListener;
@@ -85,6 +84,8 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        UserDao userDao = new UserDao(HomeActivity.this);
+        Constants.user = userDao.getUser();
 
     }
 
@@ -180,11 +181,15 @@ public class HomeActivity extends BaseActivity {
                         break;
                     case R.id.ll_nav_account_switch:
 //                        ToastUtil.showToast("切换账号");
-                        Intent switchIntent = new Intent(HomeActivity.this, TestActivity.class);
-                        switchIntent.putExtra("text", "切换账号");
+
+                        UserDao userDao = new UserDao(HomeActivity.this);
+                        Constants.user.setUserStutas(0);
+                        userDao.updateStatus(Constants.user);
+
+                        Intent switchIntent = new Intent(HomeActivity.this, LoginActivity.class);
                         startActivity(switchIntent);
                         break;
-                    case R.id.iv_avatar:
+                    case R.id.iv_avatar://登陆
                         Intent avatarIntent = new Intent(HomeActivity.this, LoginActivity.class);
                         startActivity(avatarIntent);
                         break;
@@ -277,25 +282,30 @@ public class HomeActivity extends BaseActivity {
                 break;
             case R.id.ll_nav_today:
                 //清单切换为今天
-                Constants.listStatus = 1;
+//                Constants.listStatus = 1;
+//                ListFragment.instance.showList();
+//                drawerLayout.closeDrawer(GravityCompat.START);
+                Constants.listStatus = 0;
+                Constants.isToDay = true;
                 ListFragment.instance.showList();
+                Constants.isToDay = false;
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.ll_nav_learn:
                 //清单切换为学习清单
-                Constants.listStatus = 2;
+                Constants.listStatus = 1;
                 ListFragment.instance.showList();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.ll_nav_workout:
                 //清单切换为锻炼清单
-                Constants.listStatus = 3;
+                Constants.listStatus = 2;
                 ListFragment.instance.showList();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.ll_nav_job:
                 //清单切换为工作清单
-                Constants.listStatus = 4;
+                Constants.listStatus = 3;
                 ListFragment.instance.showList();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
@@ -370,7 +380,7 @@ public class HomeActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.menu_add_list://因为使用android.support.v7.widget.SearchView类，
 //                可以在onCreateOptionsMenu(Menu menu)中直接设置监听事件
-                Intent intent = new Intent(HomeActivity.this, AddChecklistActivity.class);
+                Intent intent = new Intent(HomeActivity.this, ChecklistActivity.class);
                 startActivity(intent);
                 break;
             case R.id.show_complete:

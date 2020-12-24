@@ -4,14 +4,6 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical">
-    <TextView
-        android:text="日历："
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:typeface="monospace"/>
-
 
     <!--1.设置以星期二为每周第一天-->
     <!--2.设置该组件总共显示四个星期-->
@@ -19,15 +11,29 @@
     <CalendarView
         android:id="@+id/calenderView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="308dp"
         android:firstDayOfWeek="2"
         android:focusedMonthDateColor="#f00"
         android:selectedWeekBackgroundColor="#aff"
         android:showWeekNumber="true"
         android:shownWeekCount="4"
         android:unfocusedMonthDateColor="#f9f"
-        android:weekSeparatorLineColor="#ff0"
-        >
+        android:weekSeparatorLineColor="#ff0"></CalendarView>
 
-    </CalendarView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/colorNavLine" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ListView
+            android:id="@+id/paihanglist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        </ListView>
+    </LinearLayout>
 </LinearLayout>

@@ -61,7 +61,12 @@ public class LoginActivity extends BaseActivity {
                     //记录登录用户id
                     Constants.user = userDao.findUser(username.getText().toString(), password.getText().toString());
                     Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_LONG).show();
+
+                    Constants.user.setUserStutas(1);//设置已登录
+                    userDao.updateStatus(Constants.user);//修改数据库中用户的登录状态（已登录）
+
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    finish();//关闭Activity
                     startActivity(intent);//跳转至首页
 
                 } else {

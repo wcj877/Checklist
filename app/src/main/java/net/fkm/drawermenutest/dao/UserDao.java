@@ -82,4 +82,32 @@ public class UserDao {
         db.close();
     }
 
+    public void  updateStatus(UserInfo userInfo){
+        db = helper.getReadableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("user_status", userInfo.getUserStutas());
+
+        db.update("user", contentValues, " user_id = ?", new String[]{userInfo.getUserId()});
+
+        db.close();
+    }
+
+    public UserInfo getUser(){
+        db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from user where user_status = 1;", null);
+        if (cursor.moveToNext()){
+            UserInfo userInfo=new UserInfo();
+            userInfo.setUserId(cursor.getString(cursor.getColumnIndex("user_id")));
+            userInfo.setPassword(cursor.getString(cursor.getColumnIndex("password")));
+            userInfo.setTeme(cursor.getInt(cursor.getColumnIndex("teme")));
+            userInfo.setUserCon(cursor.getInt(cursor.getColumnIndex("user_con")));
+            userInfo.setUserDate(cursor.getString(cursor.getColumnIndex("user_date")));
+            userInfo.setUserStutas(cursor.getInt(cursor.getColumnIndex("user_status")));
+            userInfo.setUserTotal(cursor.getInt(cursor.getColumnIndex("user_total")));
+            return userInfo;
+        }
+        return null;
+    }
+
 }

@@ -51,6 +51,7 @@
             android:layout_centerInParent="true"
             android:spinnerMode="dropdown"
             android:dropDownWidth="250dp"
+
             android:entries="@array/city">
         </Spinner>
 

@@ -2,12 +2,11 @@ package net.fkm.drawermenutest.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,12 +14,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.mysql.cj.xdevapi.AddStatement;
 
 import net.fkm.drawermenutest.R;
 import net.fkm.drawermenutest.dao.ListDao;
@@ -29,32 +26,47 @@ import net.fkm.drawermenutest.model.ListInfo;
 import net.fkm.drawermenutest.utils.Constants;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.BindView;
-
-public class AddChecklistActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class ChecklistActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private List<String> list = new ArrayList<String>();
     List<Map<String, Object>> mapList;
     private Spinner spinnertext;
     private Spinner spinnerimg;
     private ArrayAdapter<String> adapter;
-    private ListInfo checklist;
+    public static ListInfo checklist;
     private Button bt;
     private Button save;
     private ImageView backtrack;
     private EditText title;
     private EditText description;
+    private boolean isIncrease = true;
+
+    public ChecklistActivity() {
+    }
+
+    public ChecklistActivity(ListInfo checklist) {
+        this.checklist = checklist;
+        isIncrease = false;
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_checklist);
+
+        checklist = new ListInfo();
+        Intent intent = getIntent();
+        ListInfo listInfo = (ListInfo) intent.getParcelableExtra("listInfo");
+        if (listInfo != null){
+            this.checklist = listInfo;
+            isIncrease = false;
+        }
 
         title = findViewById(R.id.save_title);
         description = findViewById(R.id.description);
@@ -62,7 +74,7 @@ public class AddChecklistActivity extends AppCompatActivity implements AdapterVi
 
         //判断是否登录
         if (Constants.user == null){
-            Toast.makeText(AddChecklistActivity.this, "请先登录",Toast.LENGTH_LONG).show();
+            Toast.makeText(ChecklistActivity.this, "请先登录",Toast.LENGTH_LONG).show();
             finish();
         }
 
@@ -75,7 +87,7 @@ public class AddChecklistActivity extends AppCompatActivity implements AdapterVi
             }
         });
 
-        checklist = new ListInfo();
+
 
         //------------------------------------------加载清单分类下拉框
         spinnertext=(Spinner) findViewById(R.id.spinner1);
@@ -93,7 +105,7 @@ public class AddChecklistActivity extends AppCompatActivity implements AdapterVi
         /*adapter设置一个下拉列表样式，参数为系统子布局*/
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
-        /*spDown加载适配器*/
+        /*spinnertext加载适配器*/
         spinnertext.setAdapter(adapter);
 
         /*soDown的监听器*/
@@ -104,6 +116,7 @@ public class AddChecklistActivity extends AppCompatActivity implements AdapterVi
                 int i = list.indexOf(info);
 //                Toast.makeText(AddChecklistActivity.this, i+"" ,Toast.LENGTH_LONG).show();
                 checklist.setListStatus(i);
+
             }
 
             @Override
@@ -111,8 +124,6 @@ public class AddChecklistActivity extends AppCompatActivity implements AdapterVi
 
             }
         });
-
-
 
         //------------------------------加载优先级下拉框
         spinnerimg = (Spinner) findViewById(R.id.spinner_img);
@@ -157,19 +168,41 @@ public class AddChecklistActivity extends AppCompatActivity implements AdapterVi
         });
 
 
+        //监听保存点击事件
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checklist.setUserId(Constants.user.getUserId());
-//                checklist.setIsPerfection(0);
+//                listInfo.setIsPerfection(0);
                 checklist.setDescribe(description.getText().toString());
                 checklist.setListTitle(title.getText().toString());
-                ListDao listDao = new ListDao(AddChecklistActivity.this);
-                listDao.addList(checklist);
+                ListDao listDao = new ListDao(ChecklistActivity.this);
+
+                if (checklist.getTime() == null){
+                    checklist.setTime("");
+                }
+
+                //判断是否增加还是修改
+                if (isIncrease){
+                    listDao.addList(checklist);
+
+                } else {
+                    listDao.updateList(checklist);
+                }
+
                 ListFragment.instance.showList();
                 finish();
             }
         });
+
+        //加载内容
+        if (!isIncrease){
+            spinnertext.setSelection(checklist.getListStatus());
+            spinnerimg.setSelection(checklist.getPriority());
+            bt.setText(checklist.getTime());
+            title.setText(checklist.getListTitle());
+            description.setText(checklist.getDescribe());
+        }
     }
 
     public List<Map<String, Object>> getListData() {
@@ -177,7 +210,6 @@ public class AddChecklistActivity extends AppCompatActivity implements AdapterVi
         mapList = new ArrayList<Map<String, Object>>();
 
         //每个Map结构为一条数据，key与Adapter中定义的String数组中定义的一一对应。
-
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("npic", R.drawable.gray);
         map.put("namepic", "无优先级");
@@ -205,12 +237,24 @@ public class AddChecklistActivity extends AppCompatActivity implements AdapterVi
         //使用默认时区和区域设置获取日历(当前时区)
         Calendar calendar = Calendar.getInstance();
         //设置日期选择的内容为年月日
-        DatePickerDialog datePickerDialog = new DatePickerDialog(AddChecklistActivity.this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(ChecklistActivity.this, new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                AddChecklistActivity.this.bt.setText(year + "-" + monthOfYear + "-" + dayOfMonth);//设置按钮的内容为年月日
+                monthOfYear += 1;
+                String month = String.valueOf(monthOfYear);
+                if (monthOfYear < 10){
+                    month = "0"+month;
+                }
+
+                String day = String.valueOf(dayOfMonth);
+                if (dayOfMonth<10){
+                    day = "0"+day;
+                }
+
+                ChecklistActivity.this.bt.setText(year + "-" + month + "-" + day);//设置按钮的内容为年月日
                 checklist.setTime(year + "-" + monthOfYear + "-" + dayOfMonth);
+
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));//返回年， 月， 日
 

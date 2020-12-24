@@ -6,11 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
+
 import net.fkm.drawermenutest.db.DBOpenHelper;
 import net.fkm.drawermenutest.model.ListInfo;
 import net.fkm.drawermenutest.utils.Constants;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ListDao {
@@ -27,40 +31,80 @@ public class ListDao {
         db=helper.getReadableDatabase();//初始化SQLiteDatabase
         Cursor cursor;
 
-        if (Constants.listStatus>0){
-            if (Constants.showCompleted){
-                if (Constants.sortBy != null){
-                    cursor = db.rawQuery("select * from list where user_id='" + userId + "' and list_status='" + Constants.listStatus + "' ORDER BY " + Constants.sortBy + " DESC" , null);
-                } else{
-                    cursor = db.rawQuery("select * from list where user_id='" + userId + "' and list_status='" + Constants.listStatus + "'", null);
+        String sql = "select * from list where user_id = '" + userId + "' ";
+
+        if (Constants.listStatus>0){ //显示分类后的清单
+            sql += " and list_status= '" + Constants.listStatus + "'";
+            if (!Constants.showCompleted){ //是否显示已完成的订单
+                sql += " and isPerfection =0  ";
+                if (Constants.sortBy != null){//排序的字段不为空则执行
+                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
                 }
             } else{
-                if (Constants.sortBy != null){
-                    cursor = db.rawQuery("select * from list where user_id='" + userId + "' and list_status='" + Constants.listStatus + "' and isPerfection =0  ORDER BY " + Constants.sortBy + " DESC" , null);
-                } else{
-                    cursor = db.rawQuery("select * from list where user_id='" + userId + "' and list_status='" + Constants.listStatus + "' and isPerfection =0", null);
+                if (Constants.sortBy != null){//排序的字段不为空则执行
+                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
+                }
+            }
+        } else if (Constants.isToDay){
+
+            String format = Constants.getDate();
+
+            sql += " and time = '" + format + "'";
+            if (!Constants.showCompleted){ //是否显示已完成的订单
+                sql += " and isPerfection =0  ";
+                if (Constants.sortBy != null){//排序的字段不为空则执行
+                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
+                }
+            } else{
+                if (Constants.sortBy != null){//排序的字段不为空则执行
+                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
                 }
             }
 
-
-        } else {
-
-            if (Constants.showCompleted){
-                if (Constants.sortBy != null){
-                    cursor = db.rawQuery("select * from list where user_id='" + userId + "' ORDER BY " + Constants.sortBy + " DESC" , null);
-                } else{
-                    cursor = db.rawQuery("select * from list where user_id='" + userId + "'", null);
+        }else { //显示收集箱中的清单（即全部清单）
+            if (!Constants.showCompleted){ //是否显示已完成的订单
+                sql += " and isPerfection =0  ";
+                if (Constants.sortBy != null){//排序的字段不为空则执行
+                    sql += " ORDER BY " + Constants.sortBy + " DESC";
                 }
             } else{
-                if (Constants.sortBy != null){
-                    cursor = db.rawQuery("select * from list where user_id='" + userId + "' and isPerfection =0  ORDER BY " + Constants.sortBy + " DESC" , null);
-                } else{
-                    cursor = db.rawQuery("select * from list where user_id='" + userId + "' and isPerfection =0", null);
+                if (Constants.sortBy != null){//排序的字段不为空则执行
+                    sql += " ORDER BY " + Constants.sortBy + " DESC";
                 }
             }
-
-//            cursor = db.rawQuery("select * from list where user_id='" + userId + "'", null);
         }
+
+        cursor = db.rawQuery(sql, null);
+
+
+        while (cursor.moveToNext()){
+            ListInfo list=new ListInfo();
+
+            list.setUserId(cursor.getString(cursor.getColumnIndex("user_id")));
+            list.setListId(cursor.getInt(cursor.getColumnIndex("list_id")));
+            list.setListTitle(cursor.getString(cursor.getColumnIndex("list_title")));
+            list.setDescribe(cursor.getString(cursor.getColumnIndex("describe")));
+            list.setListStatus(cursor.getInt(cursor.getColumnIndex("list_status")));
+            list.setPriority(cursor.getInt(cursor.getColumnIndex("priority")));
+            list.setIsPerfection(cursor.getInt(cursor.getColumnIndex("isPerfection")));
+            list.setTime(cursor.getString(cursor.getColumnIndex("time")));
+            listInfoList.add(list);
+        }
+        cursor.close();
+        db.close();
+        return listInfoList;
+    }
+
+    public ArrayList<ListInfo> queryAll(String userId, String date){
+        ArrayList<ListInfo> listInfoList = new ArrayList<>();
+
+        db=helper.getReadableDatabase();//初始化SQLiteDatabase
+        Cursor cursor;
+
+        String sql = "select * from list where user_id = '" + userId + "' and  time = '" + date +"'";
+
+        cursor = db.rawQuery(sql, null);
+
 
         while (cursor.moveToNext()){
             ListInfo list=new ListInfo();
@@ -113,5 +157,23 @@ public class ListDao {
         insNum = db.insert("list",null,contentValues);
         db.close();
         return insNum;
+    }
+
+    public void updateList(ListInfo listInfo){
+        db = helper.getReadableDatabase();
+
+//        cursor = db.update("update list set list_title =? and describe =?   and list_status = ?  and priority =?  and time =?   where list_id =? ;",
+//                new String(){listInfo.getListTitle(), listInfo.getDescribe(), listInfo.getListStatus(), listInfo.getPriority(), listInfo.getTime(), listInfo.getListId()});
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("list_title", listInfo.getListTitle());
+        contentValues.put("describe", listInfo.getDescribe());
+        contentValues.put("list_status", listInfo.getListStatus());
+        contentValues.put("priority", listInfo.getPriority());
+        contentValues.put("time", listInfo.getTime());
+
+        db.update("list", contentValues, " list_id = ?", new String[]{String.valueOf(listInfo.getListId())});
+
+        db.close();
     }
 }
