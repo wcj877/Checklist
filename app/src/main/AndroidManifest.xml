@@ -15,7 +15,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".activity.CreateChecklistActivity"></activity>
+        <activity android:name=".activity.HabitActivity"></activity>
+        <activity android:name=".activity.CreateChecklistActivity" />
         <activity android:name=".activity.PasswordActivity" />
         <activity android:name=".activity.ChecklistActivity" />
         <activity android:name=".activity.LoginActivity" /> <!-- android:label="@string/title_activity_login" /> &lt;!&ndash; 项目主页 &ndash;&gt; -->

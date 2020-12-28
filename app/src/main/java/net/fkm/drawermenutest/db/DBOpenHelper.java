@@ -56,11 +56,12 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 "`habit_con` int ,"+
                 "`habit_total` int,"+
                 "`user_id` varchar(20) not null,"+
+                "`describe` varchar(255),"+
                 "`habit_date` varchar(20));"
         );
 
         //预存数据
-        db.execSQL("insert into `habit` values ('1','afaawefw','0','0','0','u_101','')");
+        db.execSQL("insert into `habit` values ('1','学习','0','0','0','u_101','每天看一个小时的书','')");
 
 
 

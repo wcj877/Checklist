@@ -1,99 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:orientation="horizontal">
-
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/line"
+<com.mcxtzhang.swipemenulib.SwipeMenuLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="60dp"
+        android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/list_confirm"
-            android:layout_width="54dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="8dp"
-            android:src="@mipmap/success"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/list_title"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:ellipsize="end"
-            android:gravity="left|center"
-            android:maxLines="1"
-            android:text="标题"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/list_day"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/list_confirm"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:ignore="MissingConstraints" />
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/list_content"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:ellipsize="end"
-            android:gravity="left|center"
-            android:maxLines="1"
-            android:text="内容"
-            android:textSize="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/list_day"
-            app:layout_constraintStart_toEndOf="@+id/list_confirm"
-            app:layout_constraintTop_toBottomOf="@+id/list_title"
-            tools:ignore="MissingConstraints" />
+            <ImageView
+                android:id="@+id/habit_confirm"
+                android:layout_width="54dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="8dp"
+                android:src="@mipmap/success"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/list_num"
-            android:layout_width="25dp"
-            android:layout_height="40dp"
-            android:ellipsize="end"
-            android:gravity="left|center"
-            android:maxLines="1"
-            android:text="几"
-            android:textSize="20dp"
-            app:layout_constraintEnd_toStartOf="@+id/list_day"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="0dp" />
+            <TextView
+                android:id="@+id/habit_title"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:ellipsize="end"
+                android:gravity="left|center"
+                android:maxLines="1"
+                android:text="标题"
+                android:textSize="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/habit_day"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/habit_confirm"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:id="@+id/list_day"
-            android:layout_width="25dp"
-            android:layout_height="40dp"
-            android:ellipsize="end"
-            android:gravity="left|center"
-            android:maxLines="1"
-            android:text="天"
-            android:textSize="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="MissingConstraints" />
+            <TextView
+                android:id="@+id/habit_content"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:ellipsize="end"
+                android:gravity="left|center"
+                android:maxLines="1"
+                android:text="内容"
+                android:textSize="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/habit_day"
+                app:layout_constraintStart_toEndOf="@+id/habit_confirm"
+                app:layout_constraintTop_toBottomOf="@+id/habit_title"
+                tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:id="@+id/list_adhere"
-            android:layout_width="50dp"
-            android:layout_height="20dp"
-            android:ellipsize="end"
-            android:gravity="left|center"
-            android:maxLines="1"
-            android:text="共坚持"
-            android:textSize="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/list_day"
-            app:layout_constraintVertical_bias="0.0"
-            tools:ignore="MissingConstraints" />
-    </android.support.constraint.ConstraintLayout>
-</RelativeLayout>
+            <TextView
+                android:id="@+id/habit_num"
+                android:layout_width="25dp"
+                android:layout_height="40dp"
+                android:ellipsize="end"
+                android:gravity="left|center"
+                android:maxLines="1"
+                android:text="几"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/habit_day"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/habit_day"
+                android:layout_width="25dp"
+                android:layout_height="40dp"
+                android:ellipsize="end"
+                android:gravity="left|center"
+                android:maxLines="1"
+                android:text="天"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/habit_adhere"
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:ellipsize="end"
+                android:gravity="left|center"
+                android:maxLines="1"
+                android:text="共坚持"
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/habit_day"
+                app:layout_constraintVertical_bias="0.0"
+                tools:ignore="MissingConstraints" />
+        </android.support.constraint.ConstraintLayout>
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:text="删除"
+            android:textColor="@android:color/white"/>
+
+</com.mcxtzhang.swipemenulib.SwipeMenuLayout>
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<RelativeLayout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="60dp"-->
+<!--    android:orientation="horizontal">-->
+
+
+<!--    <android.support.constraint.ConstraintLayout-->
+<!--        android:id="@+id/line"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/habit_confirm"-->
+<!--            android:layout_width="54dp"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:layout_marginStart="4dp"-->
+<!--            android:layout_marginLeft="4dp"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:src="@mipmap/success"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/habit_title"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:gravity="left|center"-->
+<!--            android:maxLines="1"-->
+<!--            android:text="标题"-->
+<!--            android:textSize="20dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/habit_day"-->
+<!--            app:layout_constraintHorizontal_bias="1.0"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/habit_confirm"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_bias="0.0"-->
+<!--            tools:ignore="MissingConstraints" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/habit_content"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:gravity="left|center"-->
+<!--            android:maxLines="1"-->
+<!--            android:text="内容"-->
+<!--            android:textSize="10dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/habit_day"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/habit_confirm"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/habit_title"-->
+<!--            tools:ignore="MissingConstraints" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/habit_num"-->
+<!--            android:layout_width="25dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:gravity="left|center"-->
+<!--            android:maxLines="1"-->
+<!--            android:text="几"-->
+<!--            android:textSize="20dp"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/habit_day"-->
+<!--            tools:ignore="MissingConstraints" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/habit_day"-->
+<!--            android:layout_width="25dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:gravity="left|center"-->
+<!--            android:maxLines="1"-->
+<!--            android:text="天"-->
+<!--            android:textSize="20dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            tools:ignore="MissingConstraints" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/habit_adhere"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:gravity="left|center"-->
+<!--            android:maxLines="1"-->
+<!--            android:text="共坚持"-->
+<!--            android:textSize="14dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/habit_day"-->
+<!--            app:layout_constraintVertical_bias="0.0"-->
+<!--            tools:ignore="MissingConstraints" />-->
+<!--    </android.support.constraint.ConstraintLayout>-->
+<!--</RelativeLayout>-->

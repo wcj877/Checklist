@@ -12,12 +12,12 @@ public class TestActivity extends BaseActivity {
 
     private String text;
 
-    @BindView(R.id.tv_text)
-    TextView tv_text;
+//    @BindView(R.id.tv_text)
+//    TextView tv_text;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_test_layout;
+        return R.layout.cs;
     }
 
     @Override
@@ -27,9 +27,9 @@ public class TestActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        Intent intent = getIntent();
-        text = intent.getStringExtra("text");
-        tv_text.setText(String.format("%s测试界面", text));
+//        Intent intent = getIntent();
+//        text = intent.getStringExtra("text");
+//        tv_text.setText(String.format("%s测试界面", text));
     }
 
 

@@ -25,9 +25,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.fkm.drawermenutest.R;
 import net.fkm.drawermenutest.activity.ChecklistActivity;
@@ -117,6 +119,7 @@ public class ListFragment extends Fragment {
                 viewHolder.title = (TextView) convertView.findViewById(R.id.list_title);
                 viewHolder.priority = (ImageView)convertView.findViewById(R.id.list_priority);
                 viewHolder.line = (ConstraintLayout) convertView.findViewById(R.id.line);
+                viewHolder.delete = (Button) convertView.findViewById(R.id.btnDelete);
 
                 convertView.setTag(viewHolder);
             }else{
@@ -176,6 +179,16 @@ public class ListFragment extends Fragment {
                 }
             });
 
+            viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ListDao dao = new ListDao(getContext());
+                    dao.deleteList(String.valueOf(listInfo.getListId()));
+                    ListFragment.instance.showList();
+                    Toast.makeText(getContext(),"删除成功",Toast.LENGTH_LONG).show();
+                }
+            });
+
 
             return convertView;
         }
@@ -185,6 +198,7 @@ public class ListFragment extends Fragment {
         public TextView title;
         public ImageView priority;
         public ConstraintLayout line;
+        public Button delete;
     }
 }
 

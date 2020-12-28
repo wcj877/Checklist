@@ -191,26 +191,6 @@ public class CalendarFragment extends Fragment {
                     viewHolder.priority.setImageDrawable(getResources().getDrawable((R.mipmap.red)));
                     break;
             }
-
-            //监听清单完成的点击事件
-            viewHolder.confirm.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ListDao listDao = new ListDao(getContext());
-                    listDao.updateStatus(listInfo.getListId(), listInfo.getIsPerfection());//修改清单是否完成的状态
-                    ListFragment.instance.showList();//刷新清单显示
-                }
-            });
-
-            viewHolder.line.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), ChecklistActivity.class);
-                    intent.putExtra("listInfo", (Parcelable) listInfo);
-                    startActivity(intent);
-                }
-            });
-
             return convertView;
         }
     }

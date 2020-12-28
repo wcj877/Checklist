@@ -95,6 +95,12 @@ public class ListDao {
         return listInfoList;
     }
 
+    /**
+     * 获取该用户的全部清单
+     * @param userId
+     * @param date
+     * @return
+     */
     public ArrayList<ListInfo> queryAll(String userId, String date){
         ArrayList<ListInfo> listInfoList = new ArrayList<>();
 
@@ -123,6 +129,11 @@ public class ListDao {
         return listInfoList;
     }
 
+    /**
+     * 修改清单是否完成
+     * @param listId
+     * @param isPerfection
+     */
     public void updateStatus(int listId, int isPerfection){
         db = helper.getReadableDatabase();
         Cursor cursor;
@@ -142,6 +153,11 @@ public class ListDao {
         db.close();
     }
 
+    /**
+     * 增加清单
+     * @param listInfo
+     * @return
+     */
     public long addList(ListInfo listInfo){
         db=helper.getWritableDatabase();
         long insNum=0;
@@ -159,6 +175,10 @@ public class ListDao {
         return insNum;
     }
 
+    /**
+     * 修改清单
+     * @param listInfo
+     */
     public void updateList(ListInfo listInfo){
         db = helper.getReadableDatabase();
 
@@ -173,6 +193,18 @@ public class ListDao {
         contentValues.put("time", listInfo.getTime());
 
         db.update("list", contentValues, " list_id = ?", new String[]{String.valueOf(listInfo.getListId())});
+
+        db.close();
+    }
+
+    /**
+     * 删除清单
+     * @param listId
+     */
+    public void deleteList(String listId){
+        db = helper.getReadableDatabase();
+
+        db.delete("list", " list_id = ? ", new String[]{listId});
 
         db.close();
     }

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import net.fkm.drawermenutest.R;
 import net.fkm.drawermenutest.dao.UserDao;
@@ -42,6 +43,8 @@ public class HomeActivity extends BaseActivity {
     public static final String IC_AVATAR = "https://clouddisc.oss-cn-hongkong.aliyuncs.com/image/ic_user.png?x-oss-process=style/thumb";
 
     private long exitTime = 0;
+    private View headerView;//抽屉视图
+    TextView username;//显示用户名的TextView
 
     @BindView(R.id.drawer_layout)//将字段绑定到指定ID的视图。该视图将自动转换为字段类型
     DrawerLayout drawerLayout;
@@ -86,13 +89,16 @@ public class HomeActivity extends BaseActivity {
     protected void initData() {
         UserDao userDao = new UserDao(HomeActivity.this);
         Constants.user = userDao.getUser();
+        if (Constants.user != null)
+            username.setText(Constants.user.getUserId());
 
     }
 
     private void initDrawerLayout() {
+        //添加抽屉布局
         navView.inflateHeaderView(R.layout.nav_header_main);
 
-        View headerView = navView.getHeaderView(0);
+        headerView = navView.getHeaderView(0);
 
         ImageView iv_avatar = headerView.findViewById(R.id.iv_avatar);
         iv_avatar.setOnClickListener(listener);
@@ -139,6 +145,7 @@ public class HomeActivity extends BaseActivity {
         //用toolbar替换actionbar
         setSupportActionBar(toolbar);
 
+        username = headerView.findViewById(R.id.tv_username);
 
     }
 
@@ -378,28 +385,30 @@ public class HomeActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
         switch (item.getItemId()) {
-            case R.id.menu_add_list://因为使用android.support.v7.widget.SearchView类，
-//                可以在onCreateOptionsMenu(Menu menu)中直接设置监听事件
+            case R.id.menu_add_list://添加清单
                 Intent intent = new Intent(HomeActivity.this, ChecklistActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.show_complete:
+            case R.id.menu_add_habit:
+                startActivity(new Intent(HomeActivity.this, HabitActivity.class));
+                break;
+            case R.id.show_complete://显示已完成的清单
                 Constants.showCompleted = true;
                 ListFragment.instance.showList();
                 break;
-            case R.id.hide_complete:
+            case R.id.hide_complete://隐藏已完成的清单
                 Constants.showCompleted = false;
                 ListFragment.instance.showList();
                 break;
-            case R.id.sort_default:
+            case R.id.sort_default://默认排序
                 Constants.sortBy = null;
                 ListFragment.instance.showList();
                 break;
-            case R.id.sort_priority:
+            case R.id.sort_priority://按优先级排序
                 Constants.sortBy = "priority";
                 ListFragment.instance.showList();
                 break;
-            case R.id.sort_title:
+            case R.id.sort_title://按标题排序
                 Constants.sortBy = "list_title";
                 ListFragment.instance.showList();
                 break;

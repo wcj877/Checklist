@@ -2,7 +2,6 @@ package net.fkm.drawermenutest.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -41,6 +39,7 @@ public class ChecklistActivity extends AppCompatActivity implements AdapterView.
     public static ListInfo checklist;
     private Button bt;
     private Button save;
+    private Button delete;
     private ImageView backtrack;
     private EditText title;
     private EditText description;
@@ -71,6 +70,7 @@ public class ChecklistActivity extends AppCompatActivity implements AdapterView.
         title = findViewById(R.id.save_title);
         description = findViewById(R.id.description);
         save = findViewById(R.id.save);
+        delete = findViewById(R.id.bt_delete);
 
         //判断是否登录
         if (Constants.user == null){
@@ -195,11 +195,32 @@ public class ChecklistActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
+
+        //监听删除按钮
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //判断该清单是否为新建的，如果为新建的直接关闭该Activity，不是则先删除在关闭Activity
+                if (0 == checklist.getListId()){
+                    finish();
+                } else {
+                    ListDao dao = new ListDao(ChecklistActivity.this);
+                    dao.deleteList(String.valueOf(checklist.getListId()));
+                    ListFragment.instance.showList();
+                    Toast.makeText(ChecklistActivity.this,"删除成功",Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            }
+        });
+
+
         //加载内容
         if (!isIncrease){
             spinnertext.setSelection(checklist.getListStatus());
             spinnerimg.setSelection(checklist.getPriority());
-            bt.setText(checklist.getTime());
+            if ( ! "".equals(checklist.getTime()) && checklist.getTime() != null){
+                bt.setText(checklist.getTime());
+            }
             title.setText(checklist.getListTitle());
             description.setText(checklist.getDescribe());
         }

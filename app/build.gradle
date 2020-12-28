@@ -57,5 +57,6 @@ dependencies {
     // Glide图片加载框架
     implementation 'com.github.bumptech.glide:glide:4.4.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
-
+    implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+//    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
 }
