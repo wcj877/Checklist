@@ -138,7 +138,7 @@ public class CountdownFragment extends Fragment {
                 viewHolder.title = (TextView) convertView.findViewById(R.id.habit_title);
                 viewHolder.content = (TextView) convertView.findViewById(R.id.habit_content);
                 viewHolder.num = (TextView) convertView.findViewById(R.id.habit_num);
-                viewHolder.delete = (Button) convertView.findViewById(R.id.btnDelete);
+                viewHolder.delete = (ImageView) convertView.findViewById(R.id.btnDelete);
 
                 convertView.setTag(viewHolder);
             }else{
@@ -207,6 +207,6 @@ public class CountdownFragment extends Fragment {
         public TextView title;
         public TextView content;
         public TextView num;
-        public Button delete;
+        public ImageView delete;
     }
 }

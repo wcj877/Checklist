@@ -199,12 +199,15 @@ public class HomeActivity extends BaseActivity {
                     case R.id.ll_nav_account_switch:
 //                        ToastUtil.showToast("切换账号");
 
-                        UserDao userDao = new UserDao(HomeActivity.this);
-                        Constants.user.setUserStutas(0);
-                        userDao.updateStatus(Constants.user);
+                        if (Constants.user != null){
+                            UserDao userDao = new UserDao(HomeActivity.this);
+                            Constants.user.setUserStutas(0);
+                            userDao.updateStatus(Constants.user);
 
-                        Intent switchIntent = new Intent(HomeActivity.this, LoginActivity.class);
-                        startActivity(switchIntent);
+                            Intent switchIntent = new Intent(HomeActivity.this, LoginActivity.class);
+                            startActivity(switchIntent);
+                        } else
+                            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                         break;
                     case R.id.iv_avatar://登陆
                         Intent avatarIntent = new Intent(HomeActivity.this, LoginActivity.class);

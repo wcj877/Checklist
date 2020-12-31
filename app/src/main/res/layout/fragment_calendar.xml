@@ -8,6 +8,7 @@
     <!--1.设置以星期二为每周第一天-->
     <!--2.设置该组件总共显示四个星期-->
     <!--3.并对该组件的星期尽心了定制-->
+
     <CalendarView
         android:id="@+id/calenderView"
         android:layout_width="match_parent"
@@ -18,7 +19,7 @@
         android:showWeekNumber="true"
         android:shownWeekCount="4"
         android:unfocusedMonthDateColor="#f9f"
-        android:weekSeparatorLineColor="#ff0"></CalendarView>
+        android:weekSeparatorLineColor="#ff0" />
 
     <View
         android:layout_width="match_parent"

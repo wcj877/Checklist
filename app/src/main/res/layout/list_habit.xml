@@ -98,13 +98,13 @@
                 tools:ignore="MissingConstraints" />
         </android.support.constraint.ConstraintLayout>
 
-        <Button
-            android:id="@+id/btnDelete"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
-            android:text="删除"
-            android:textColor="@android:color/white"/>
+    <ImageView
+        android:id="@+id/btnDelete"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="@color/colorred"
+        android:src="@mipmap/delete"
+        android:textColor="@android:color/white"/>
 
 </com.mcxtzhang.swipemenulib.SwipeMenuLayout>
 

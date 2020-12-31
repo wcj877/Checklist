@@ -40,7 +40,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        if (Constants.user != null){
+        if (Constants.user != null && Constants.user.getUserStutas()==1){
             Toast.makeText(LoginActivity.this,"已登录",Toast.LENGTH_LONG).show();
             finish();//关闭该activity
         }
