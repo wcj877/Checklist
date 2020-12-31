@@ -5,11 +5,12 @@
     <color name="colorPrimaryDark">@color/colorTheme</color>
     <color name="colorAccent">@color/colorTheme</color>
 
-    <color name="colorTheme">#ffce3d3a</color>
+    <color name="colorTheme">#7B68EE</color>
+    <color name="colorred">#DC1434</color>
 
     <!--页面背景的颜色-->
     <color name="color_page_bg">#F1F3F4</color>
-    <color name="colorWhite">#ffffffff</color>
+    <color name="colorWhite">#fff</color>
     <color name="gray">#9F9F9F</color>
     <color name="black">#000</color>
     <!--透明色-->

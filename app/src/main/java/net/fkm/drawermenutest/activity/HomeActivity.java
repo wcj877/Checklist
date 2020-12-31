@@ -1,9 +1,12 @@
 package net.fkm.drawermenutest.activity;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -146,6 +149,13 @@ public class HomeActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         username = headerView.findViewById(R.id.tv_username);
+
+
+        //设置菜单图标颜色
+        Drawable moreIcon = ContextCompat.getDrawable(toolbar.getContext(), R.drawable.abc_ic_menu_overflow_material);
+        //设置颜色为黑色
+        moreIcon.setColorFilter(ContextCompat.getColor(toolbar.getContext(), R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        toolbar.setOverflowIcon(moreIcon);
 
     }
 
@@ -371,6 +381,7 @@ public class HomeActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
 
 
     @Override

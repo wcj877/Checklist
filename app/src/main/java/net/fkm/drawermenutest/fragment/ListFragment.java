@@ -119,7 +119,7 @@ public class ListFragment extends Fragment {
                 viewHolder.title = (TextView) convertView.findViewById(R.id.list_title);
                 viewHolder.priority = (ImageView)convertView.findViewById(R.id.list_priority);
                 viewHolder.line = (ConstraintLayout) convertView.findViewById(R.id.line);
-                viewHolder.delete = (Button) convertView.findViewById(R.id.btnDelete);
+                viewHolder.delete = (ImageView) convertView.findViewById(R.id.btnDelete);
 
                 convertView.setTag(viewHolder);
             }else{
@@ -198,7 +198,7 @@ public class ListFragment extends Fragment {
         public TextView title;
         public ImageView priority;
         public ConstraintLayout line;
-        public Button delete;
+        public ImageView delete;
     }
 }
 

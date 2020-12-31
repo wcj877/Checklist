@@ -20,7 +20,7 @@
         android:id="@+id/add_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorWhite"
         app:contentInsetStart="0.0dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ToolbarStyle">
@@ -46,32 +46,29 @@
             android:layout_height="wrap_content"
             android:textSize="30dp"
             android:text="每日习惯"/>
-
     </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/border"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent"
+        android:text="TextView" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/save"
-            android:layout_width="96dp"
-            android:layout_height="61dp"
-            android:layout_alignBottom="@+id/save_title"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_toEndOf="@+id/save_title"
-            android:layout_toRightOf="@+id/save_title"
-            android:background="@drawable/btn_nor_down"
-            android:text="保存" />
 
         <EditText
             android:id="@+id/save_title"
             android:layout_width="305dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_below="@+id/spinner_img"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:hint="标题标题"
             android:maxLines="1"
             android:minLines="1"
@@ -80,22 +77,40 @@
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="559dp"
+            android:layout_height="450dp"
             android:layout_below="@+id/save_title"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginStart="-1dp"
             android:layout_marginLeft="-1dp"
             android:layout_marginTop="-1dp"
             android:layout_marginEnd="1dp"
             android:layout_marginRight="1dp"
-            android:layout_marginBottom="0dp"
             android:gravity="top"
             android:hint="描述描述描述"
             android:minLines="10" />
+
+        <Button
+            android:id="@+id/bt_delete"
+            android:layout_width="210dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/description"
+            android:textColor="@color/colorAccent"
+            android:text="删除"
+            android:background="@drawable/check_border2" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/description"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/bt_delete"
+            android:text="保存"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/check_border"/>
     </RelativeLayout>
 
 

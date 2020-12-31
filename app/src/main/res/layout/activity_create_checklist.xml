@@ -18,7 +18,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="182dp"
+        android:layout_width="171dp"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         app:contentInsetStart="0.0dp"
