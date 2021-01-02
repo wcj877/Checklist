@@ -64,7 +64,7 @@ public class CalendarFragment extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-//                Toast.makeText(getContext(), "" + i + "年" + i1 + "月" + i2 + "日", Toast.LENGTH_SHORT).show();
+//
                 i1+=1;
 
                 String date = "" + i + "-";
@@ -79,7 +79,9 @@ public class CalendarFragment extends Fragment {
                 }else{
                     date = date + "-" +i2;
                 }
+//                String date = "" + i + "-" + i1 + "-" + i2;
 
+                Toast.makeText(getContext(), date, Toast.LENGTH_SHORT).show();
                 showList(date);
 
             }

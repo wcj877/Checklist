@@ -274,7 +274,7 @@ public class ChecklistActivity extends AppCompatActivity implements AdapterView.
                 }
 
                 ChecklistActivity.this.bt.setText(year + "-" + month + "-" + day);//设置按钮的内容为年月日
-                checklist.setTime(year + "-" + monthOfYear + "-" + dayOfMonth);
+                checklist.setTime(year + "-" + month + "-" + day);
 
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));//返回年， 月， 日
