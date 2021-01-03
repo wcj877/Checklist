@@ -21,5 +21,7 @@
     <color name="colorContent">#ff333333</color>
     <!--侧边栏分割线-->
     <color name="colorNavLine">#E0E0E0</color>
-
+    <color name="gray2">#b7b6b6</color>
+    <color name="gray3">#FF7B7B7B</color>
+    <color name="white">#FFFFFF</color>
 </resources>

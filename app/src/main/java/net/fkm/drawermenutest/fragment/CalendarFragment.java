@@ -79,7 +79,6 @@ public class CalendarFragment extends Fragment {
                 }else{
                     date = date + "-" +i2;
                 }
-//                String date = "" + i + "-" + i1 + "-" + i2;
 
                 Toast.makeText(getContext(), date, Toast.LENGTH_SHORT).show();
                 showList(date);

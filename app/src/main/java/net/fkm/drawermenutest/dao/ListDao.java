@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 
+import net.fkm.drawermenutest.application.MemoApplication;
 import net.fkm.drawermenutest.db.DBOpenHelper;
 import net.fkm.drawermenutest.model.ListInfo;
 import net.fkm.drawermenutest.utils.Constants;
@@ -20,6 +21,9 @@ import java.util.List;
 public class ListDao {
     private SQLiteOpenHelper helper;//一个帮助程序类，用于管理数据库创建和版本管理。
     private SQLiteDatabase db;//SQLiteDatabase具有创建，删除，执行SQL命令和执行其他常见数据库管理任务的方法。
+    public ListDao(){
+        helper = new DBOpenHelper(MemoApplication.getContext());
+    };
     public ListDao(Context context){
         helper=new DBOpenHelper(context);
     }
@@ -49,7 +53,7 @@ public class ListDao {
 
             String format = Constants.getDate();
 
-            sql += " and time = '" + format + "'";
+            sql += " and date = '" + format + "'";
             if (!Constants.showCompleted){ //是否显示已完成的订单
                 sql += " and isPerfection =0  ";
                 if (Constants.sortBy != null){//排序的字段不为空则执行
@@ -88,6 +92,8 @@ public class ListDao {
             list.setPriority(cursor.getInt(cursor.getColumnIndex("priority")));
             list.setIsPerfection(cursor.getInt(cursor.getColumnIndex("isPerfection")));
             list.setTime(cursor.getString(cursor.getColumnIndex("time")));
+            list.setDate(cursor.getString(cursor.getColumnIndex("date")));
+            list.setIsClocked(cursor.getInt(cursor.getColumnIndex("isClocked")));
             listInfoList.add(list);
         }
         cursor.close();
@@ -107,7 +113,7 @@ public class ListDao {
         db=helper.getReadableDatabase();//初始化SQLiteDatabase
         Cursor cursor;
 
-        String sql = "select * from list where user_id = '" + userId + "' and  time = '" + date +"'";
+        String sql = "select * from list where user_id = '" + userId + "' and  date = '" + date +"'";
 
         cursor = db.rawQuery(sql, null);
 
@@ -123,6 +129,8 @@ public class ListDao {
             list.setPriority(cursor.getInt(cursor.getColumnIndex("priority")));
             list.setIsPerfection(cursor.getInt(cursor.getColumnIndex("isPerfection")));
             list.setTime(cursor.getString(cursor.getColumnIndex("time")));
+            list.setDate(cursor.getString(cursor.getColumnIndex("date")));
+            list.setIsClocked(cursor.getInt(cursor.getColumnIndex("isClocked")));
             listInfoList.add(list);
         }
         db.close();
@@ -168,8 +176,9 @@ public class ListDao {
         contentValues.put("list_status", listInfo.getListStatus());
         contentValues.put("priority", listInfo.getPriority());
         contentValues.put("isPerfection",0);
+        contentValues.put("date", listInfo.getDate());
         contentValues.put("time",listInfo.getTime());
-//        contentValues.put("user_date",);
+        contentValues.put("isClocked",0);
         insNum = db.insert("list",null,contentValues);
         db.close();
         return insNum;
@@ -182,8 +191,6 @@ public class ListDao {
     public void updateList(ListInfo listInfo){
         db = helper.getReadableDatabase();
 
-//        cursor = db.update("update list set list_title =? and describe =?   and list_status = ?  and priority =?  and time =?   where list_id =? ;",
-//                new String(){listInfo.getListTitle(), listInfo.getDescribe(), listInfo.getListStatus(), listInfo.getPriority(), listInfo.getTime(), listInfo.getListId()});
 
         ContentValues contentValues = new ContentValues();
         contentValues.put("list_title", listInfo.getListTitle());
@@ -191,6 +198,7 @@ public class ListDao {
         contentValues.put("list_status", listInfo.getListStatus());
         contentValues.put("priority", listInfo.getPriority());
         contentValues.put("time", listInfo.getTime());
+        contentValues.put("date", listInfo.getDate());
 
         db.update("list", contentValues, " list_id = ?", new String[]{String.valueOf(listInfo.getListId())});
 
@@ -207,5 +215,36 @@ public class ListDao {
         db.delete("list", " list_id = ? ", new String[]{listId});
 
         db.close();
+    }
+
+    /**
+     * 查找清单
+     * @param id 清单id
+     */
+    public ListInfo findById(int id){
+        db=helper.getReadableDatabase();//初始化SQLiteDatabase
+        Cursor cursor;
+
+        String sql = "select * from list where list_id = '" + id + "'";
+
+        cursor = db.rawQuery(sql, null);
+
+
+        cursor.moveToNext();
+        ListInfo list=new ListInfo();
+
+        list.setUserId(cursor.getString(cursor.getColumnIndex("user_id")));
+        list.setListId(cursor.getInt(cursor.getColumnIndex("list_id")));
+        list.setListTitle(cursor.getString(cursor.getColumnIndex("list_title")));
+        list.setDescribe(cursor.getString(cursor.getColumnIndex("describe")));
+        list.setListStatus(cursor.getInt(cursor.getColumnIndex("list_status")));
+        list.setPriority(cursor.getInt(cursor.getColumnIndex("priority")));
+        list.setIsPerfection(cursor.getInt(cursor.getColumnIndex("isPerfection")));
+        list.setTime(cursor.getString(cursor.getColumnIndex("time")));
+        list.setTime(cursor.getString(cursor.getColumnIndex("date")));
+        list.setIsClocked(cursor.getInt(cursor.getColumnIndex("isClocked")));
+
+        db.close();
+        return list;
     }
 }

@@ -3,10 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="net.fkm.drawermenutest">
     <!-- 允许联网 -->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
+        android:name=".application.MemoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,8 +20,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity android:name=".activity.ClockActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".activity.MainActivity"></activity>
         <activity android:name=".activity.HabitActivity"></activity>
-        <activity android:name=".activity.CreateChecklistActivity" />
         <activity android:name=".activity.PasswordActivity" />
         <activity android:name=".activity.ChecklistActivity" />
         <activity android:name=".activity.LoginActivity" /> <!-- android:label="@string/title_activity_login" /> &lt;!&ndash; 项目主页 &ndash;&gt; -->
@@ -35,6 +42,17 @@
         <activity
             android:name=".activity.TestActivity"
             android:screenOrientation="portrait" />
+
+        <receiver android:name=".receiver.ClockReceiver">
+            <intent-filter android:priority="100">
+                <action android:name="com.liuzhengwei.memo.action.CLOCK_RECEIVER" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".service.ClockService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

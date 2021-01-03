@@ -1,6 +1,8 @@
 package net.fkm.drawermenutest.activity;
 
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,13 +17,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import net.fkm.drawermenutest.R;
 import net.fkm.drawermenutest.dao.ListDao;
 import net.fkm.drawermenutest.fragment.ListFragment;
+import net.fkm.drawermenutest.manager.ClockManager;
 import net.fkm.drawermenutest.model.ListInfo;
+import net.fkm.drawermenutest.service.ClockService;
 import net.fkm.drawermenutest.utils.Constants;
+import net.fkm.drawermenutest.utils.DateTimeUtil;
+import net.fkm.drawermenutest.receiver.ClockReceiver;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,28 +38,20 @@ import java.util.Map;
 
 public class ChecklistActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private List<String> list = new ArrayList<String>();
-    List<Map<String, Object>> mapList;
-    private Spinner spinnertext;
-    private Spinner spinnerimg;
-    private ArrayAdapter<String> adapter;
-    public static ListInfo checklist;
-    private Button bt;
-    private Button save;
-    private Button delete;
-    private ImageView backtrack;
-    private EditText title;
-    private EditText description;
-    private boolean isIncrease = true;
-
-    public ChecklistActivity() {
-    }
-
-    public ChecklistActivity(ListInfo checklist) {
-        this.checklist = checklist;
-        isIncrease = false;
-
-    }
+    private List<String> list = new ArrayList<String>();//清单分类的下拉列表中的内容
+    List<Map<String, Object>> mapList;//下拉列表的内容
+    private ClockManager clockManager = ClockManager.getInstance();//时钟管理器
+    private Spinner spinnertext;//清单分类的下拉列表
+    private Spinner spinnerimg;//优先的下拉列表
+    private ArrayAdapter<String> adapter;//下拉列表的适配器
+    public static ListInfo checklist;//保存此清单中的全部信息
+    private Button bt;//时间选择控件
+    private Button save;//保存的控件
+    private Button delete;//删除控件
+    private ImageView backtrack;//退出控件
+    private EditText title;//清单标题
+    private EditText description;//清单描述的控件
+    private boolean isIncrease = true;//是否为添加清单
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +60,8 @@ public class ChecklistActivity extends AppCompatActivity implements AdapterView.
 
         checklist = new ListInfo();
         Intent intent = getIntent();
-        ListInfo listInfo = (ListInfo) intent.getParcelableExtra("listInfo");
-        if (listInfo != null){
+        ListInfo listInfo = (ListInfo) intent.getParcelableExtra("listInfo");//获取传递的清单
+        if (listInfo != null){//若为清单编辑页则会传递清单的内容，否则为null
             this.checklist = listInfo;
             isIncrease = false;
         }
@@ -113,9 +112,8 @@ public class ChecklistActivity extends AppCompatActivity implements AdapterView.
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String info = (String) spinnertext.getSelectedItem();
-                int i = list.indexOf(info);
-//                Toast.makeText(AddChecklistActivity.this, i+"" ,Toast.LENGTH_LONG).show();
-                checklist.setListStatus(i);
+                int i = list.indexOf(info);//获取选择的是第几个分类
+                checklist.setListStatus(i);//设置获取的分类
 
             }
 
@@ -135,18 +133,15 @@ public class ChecklistActivity extends AppCompatActivity implements AdapterView.
         //绑定到spinnerimg
         spinnerimg.setAdapter(simpleAdapter);
 
+        //为spinnerimg设置侦听器
         spinnerimg.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 //parent为一个Map结构的和数据
                 Map<String, Object> map = (Map<String, Object>) parent.getItemAtPosition(position);
-                int i = mapList.indexOf(map);
-//                Toast.makeText(AddChecklistActivity.this, i+""
-//                        ,Toast.LENGTH_SHORT).show();
-//                map.get("namepic").toString()
-                checklist.setPriority(i);
+                int i = mapList.indexOf(map);//获取选择的几级优先级
+                checklist.setPriority(i);//设置清单的优先级
 
             }
 
@@ -173,24 +168,25 @@ public class ChecklistActivity extends AppCompatActivity implements AdapterView.
             @Override
             public void onClick(View v) {
                 checklist.setUserId(Constants.user.getUserId());
-//                listInfo.setIsPerfection(0);
                 checklist.setDescribe(description.getText().toString());
                 checklist.setListTitle(title.getText().toString());
                 ListDao listDao = new ListDao(ChecklistActivity.this);
 
-                if (checklist.getTime() == null){
+                if (checklist.getTime() == null){//但没选择清单时间时设置为空字符串
                     checklist.setTime("");
                 }
 
-                //判断是否增加还是修改
+                //判断是否增加
                 if (isIncrease){
-                    listDao.addList(checklist);
+                    listDao.addList(checklist);//添加清单
 
                 } else {
-                    listDao.updateList(checklist);
+                    listDao.updateList(checklist);//修改清单
+                    //添加时钟
+                    clockManager.addAlarm(buildIntent(checklist.getListId()), DateTimeUtil.str2Date(checklist.getTime()));
                 }
 
-                ListFragment.instance.showList();
+                ListFragment.instance.showList();//刷新显示的清单
                 finish();
             }
         });
@@ -205,25 +201,33 @@ public class ChecklistActivity extends AppCompatActivity implements AdapterView.
                     finish();
                 } else {
                     ListDao dao = new ListDao(ChecklistActivity.this);
-                    dao.deleteList(String.valueOf(checklist.getListId()));
-                    ListFragment.instance.showList();
+                    dao.deleteList(String.valueOf(checklist.getListId()));//删除指定清单
+                    ListFragment.instance.showList();//刷新显示的清单
                     Toast.makeText(ChecklistActivity.this,"删除成功",Toast.LENGTH_LONG).show();
-                    finish();
+                    finish();//关闭当前Activity
                 }
             }
         });
 
 
-        //加载内容
+        //加载清单的内容
         if (!isIncrease){
             spinnertext.setSelection(checklist.getListStatus());
             spinnerimg.setSelection(checklist.getPriority());
-            if ( ! "".equals(checklist.getTime()) && checklist.getTime() != null){
-                bt.setText(checklist.getTime());
+            if ( ! "".equals(checklist.getDate()) && checklist.getDate() != null){
+                bt.setText(checklist.getDate());
             }
             title.setText(checklist.getListTitle());
             description.setText(checklist.getDescribe());
         }
+    }
+
+    private PendingIntent buildIntent(int id) {//建立意图
+        Intent intent = new Intent();
+        intent.putExtra(ClockReceiver.EXTRA_List_ID, id);
+        intent.setClass(this, ClockService.class);
+
+        return PendingIntent.getService(this, 0x001, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public List<Map<String, Object>> getListData() {
@@ -274,13 +278,28 @@ public class ChecklistActivity extends AppCompatActivity implements AdapterView.
                 }
 
                 ChecklistActivity.this.bt.setText(year + "-" + month + "-" + day);//设置按钮的内容为年月日
-                checklist.setTime(year + "-" + month + "-" + day);
-
+                checklist.setTime(year + "-" + month + "-" + month);
+                checklist.setDate(year + "-" + month + "-" + month);
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));//返回年， 月， 日
 
-        datePickerDialog.show();//将日期选择显示在页面上
 
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(ChecklistActivity.this, new TimePickerDialog.OnTimeSetListener() {
+            //实现监听方法
+            @Override
+            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                //设置文本显示内容
+                System.out.println(("当前时间：日   " + i + ":" + i1));
+                checklist.setTime(checklist.getTime()+" "+i+":"+i1);
+                ChecklistActivity.this.bt.setText(checklist.getTime());
+                System.out.println("时间："+checklist.getTime());
+            }
+        },calendar.get(Calendar.HOUR),calendar.get(Calendar.MINUTE),true);//记得使用show才能显示！
+
+        timePickerDialog.show();//将时间选择显示在页面上
+
+        datePickerDialog.show();//将日期选择显示在页面上
     }
 
     @Override

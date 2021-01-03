@@ -3,6 +3,8 @@ package net.fkm.drawermenutest.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 public class ListInfo implements Parcelable {
     private int listId;
     private String userId;
@@ -11,7 +13,9 @@ public class ListInfo implements Parcelable {
     private int listStatus;
     private int priority;
     private int isPerfection;
-    private String time;
+    private String time;//闹钟响应时间
+    private String date;
+    private int isClocked;//闹钟表示字段：该清单是否已经响过铃，默认没有
 
     public ListInfo() {
     }
@@ -108,6 +112,24 @@ public class ListInfo implements Parcelable {
         dest.writeInt(priority);
         dest.writeInt(isPerfection);
         dest.writeString(time);
+        dest.writeString(date);
+        dest.writeInt(isClocked);
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getIsClocked() {
+        return isClocked;
+    }
+
+    public void setIsClocked(int isClocked) {
+        this.isClocked = isClocked;
     }
 
     public static final Parcelable.Creator<ListInfo> CREATOR = new Creator<ListInfo>() {
@@ -123,7 +145,8 @@ public class ListInfo implements Parcelable {
             listInfo.priority = source.readInt();
             listInfo.isPerfection = source.readInt();
             listInfo.time = source.readString();
-
+            listInfo.date = source.readString();
+            listInfo.isClocked = source.readInt();
             return listInfo;
         }
 

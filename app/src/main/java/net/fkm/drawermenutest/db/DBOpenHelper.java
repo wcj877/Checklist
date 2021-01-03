@@ -40,12 +40,14 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 "`list_status` int ,"+
                 "`priority` int,"+
                 "`isPerfection` int,"+
+                "`isClocked` int,"+
+                "`date` varchar(20),"+
                 "`time` varchar(20) );");
-        db.execSQL("insert into `list` values ('1','u_101','收集箱','511321989800201150','0','0','0','')");
-        db.execSQL("insert into `list` values ('2','u_101','好号血虚','是打法所发生的','1','0','0','')");
-        db.execSQL("insert into `list` values ('3','u_101','学习','案发生的涉人员王鹤润根深蒂固','1','2','0','')");
-        db.execSQL("insert into `list` values ('4','u_101','锻炼','而天然气而过的人生观突然','2','3','0','')");
-        db.execSQL("insert into `list` values ('5','u_101','工作','而突然规范静态也将','3','2','0','')");
+        db.execSQL("insert into `list` values ('1','u_101','收集箱','511321989800201150','0','0','0','0','0','1')");
+        db.execSQL("insert into `list` values ('2','u_101','好号血虚','是打法所发生的','1','0','0','0','0','1')");
+        db.execSQL("insert into `list` values ('3','u_101','学习','案发生的涉人员王鹤润根深蒂固','1','2','0','0','0','1')");
+        db.execSQL("insert into `list` values ('4','u_101','锻炼','而天然气而过的人生观突然','2','3','0','0','0','1')");
+        db.execSQL("insert into `list` values ('5','u_101','工作','而突然规范静态也将','3','2','0','0','0','1')");
 
 
         //创建习惯表

@@ -12,7 +12,7 @@ public class Constants {
     public static String sortBy = null;
     public static boolean showCompleted = false;
     public static boolean isToDay = false;
-
+    public static final String DEFAULT_TIME_FORMAT = "yyyy-MM-dd HH:mm";
 
     public static String getDate(){
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");

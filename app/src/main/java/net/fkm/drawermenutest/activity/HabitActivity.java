@@ -15,12 +15,13 @@ import net.fkm.drawermenutest.fragment.CountdownFragment;
 import net.fkm.drawermenutest.model.HabitInfo;
 import net.fkm.drawermenutest.utils.Constants;
 
+//编辑习惯
 public class HabitActivity extends AppCompatActivity {
 
-    private Button save;
-    private TextView title;
-    private EditText description;
-    private ImageView backtrack;
+    private Button save;//保存的视图
+    private TextView title;//习惯的标题
+    private EditText description;//习惯的描述
+    private ImageView backtrack;//退出的视图
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

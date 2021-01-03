@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DrawerMenuTest</string>
+    <string name="app_name">提醒</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_id">账号</string>
     <string name="prompt_password">密码</string>
@@ -12,4 +12,9 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="confirm_text">确定</string>
+    <string name="cancel_text">取消</string>
+
+    <string name="clock_event_msg_template">您有事件：%1$s，请记得去完成！</string>
+
 </resources>

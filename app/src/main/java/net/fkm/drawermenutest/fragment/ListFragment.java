@@ -170,6 +170,7 @@ public class ListFragment extends Fragment {
                 }
             });
 
+            //监听清单点击事件，点击后进入清单编辑页面
             viewHolder.line.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -179,6 +180,7 @@ public class ListFragment extends Fragment {
                 }
             });
 
+            //监听删除时间
             viewHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
