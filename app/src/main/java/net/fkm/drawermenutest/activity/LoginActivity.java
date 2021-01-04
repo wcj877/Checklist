@@ -20,17 +20,21 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity {
+    //将字段绑定到指定ID的视图
     @BindView(R.id.username)
-    EditText username;
+    EditText username;//绑定输入用户名视图
 
+    //将字段绑定到指定ID的视图
     @BindView(R.id.password)
-    EditText password;
+    EditText password;//绑定输入密码视图
 
+    //将字段绑定到指定ID的视图
     @BindView(R.id.login)
-    Button login;
+    Button login;//绑定登录视图
 
+    //将字段绑定到指定ID的视图
     @BindView(R.id.registered)
-    Button registered;
+    Button registered;//绑定注册视图
 
     @Override
     protected int getLayoutId() {
@@ -39,8 +43,8 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        ButterKnife.bind(this);
-        if (Constants.user != null && Constants.user.getUserStutas()==1){
+        ButterKnife.bind(this);//设置当前视图为根视图
+        if (Constants.user != null && Constants.user.getUserStutas()==1){//判断是否已登录
             Toast.makeText(LoginActivity.this,"已登录",Toast.LENGTH_LONG).show();
             finish();//关闭该activity
         }

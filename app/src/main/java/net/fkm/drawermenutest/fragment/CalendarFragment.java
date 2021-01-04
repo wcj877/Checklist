@@ -35,10 +35,9 @@ public class CalendarFragment extends Fragment {
 
     private View mContentView;
     private Unbinder unbinder;
-    private Activity mContext;
-    private CalendarView calendarView;
-    ArrayList<ListInfo> list;
-    private ListView listView;
+    private CalendarView calendarView;//获取时间视图
+    ArrayList<ListInfo> list;//清单
+    private ListView listView;//显示的清单视图
 
 
     @Override
@@ -48,14 +47,13 @@ public class CalendarFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mContext = getActivity();
         mContentView = inflater.inflate(R.layout.fragment_calendar, container, false);
         initView();
         initData();
 
         listView = mContentView.findViewById(R.id.paihanglist);
 
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //绑定控件
         calendarView=mContentView.findViewById(R.id.calenderView);
@@ -64,9 +62,8 @@ public class CalendarFragment extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-//
                 i1+=1;
-
+                //设置时间输出格式
                 String date = "" + i + "-";
                 if (i1 < 10){
                     date = date + "0" + i1;
@@ -81,7 +78,7 @@ public class CalendarFragment extends Fragment {
                 }
 
                 Toast.makeText(getContext(), date, Toast.LENGTH_SHORT).show();
-                showList(date);
+                showList(date);//刷新显示的清单
 
             }
         });
@@ -97,12 +94,12 @@ public class CalendarFragment extends Fragment {
         ListDao listDao = new ListDao(getContext());
         list = listDao.queryAll(Constants.user.getUserId(), date);
 
-        CalendarFragment.MyListAdapter myListAdapter=new CalendarFragment.MyListAdapter(getContext(),list);
-        listView.setAdapter(myListAdapter);
+        CalendarFragment.MyListAdapter myListAdapter=new CalendarFragment.MyListAdapter(getContext(),list);//实例化适配器
+        listView.setAdapter(myListAdapter);//设置适配器
     }
 
     private void initView() {
-        unbinder = ButterKnife.bind(this, mContentView);
+        unbinder = ButterKnife.bind(this, mContentView);//绑定为根视图
     }
 
     private void initData() {
@@ -149,7 +146,7 @@ public class CalendarFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ListFragment.ViewHolder viewHolder = new ListFragment.ViewHolder();
+            ViewHolder viewHolder = new ViewHolder();
             if (convertView == null){
                 convertView = layoutInflater.inflate(R.layout.list_checklist, null);
                 viewHolder.confirm = (ImageView)convertView.findViewById(R.id.list_confirm);
@@ -159,7 +156,7 @@ public class CalendarFragment extends Fragment {
 
                 convertView.setTag(viewHolder);
             }else{
-                viewHolder = (ListFragment.ViewHolder) convertView.getTag();
+                viewHolder = (ViewHolder) convertView.getTag();
 
             }
             ListInfo listInfo = list.get(position);

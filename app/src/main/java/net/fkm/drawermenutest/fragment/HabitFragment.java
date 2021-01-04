@@ -3,48 +3,39 @@ package net.fkm.drawermenutest.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import net.fkm.drawermenutest.R;
-import net.fkm.drawermenutest.activity.ChecklistActivity;
 import net.fkm.drawermenutest.dao.HabitDao;
-import net.fkm.drawermenutest.dao.ListDao;
-import net.fkm.drawermenutest.dao.UserDao;
 import net.fkm.drawermenutest.model.HabitInfo;
-import net.fkm.drawermenutest.model.ListInfo;
-import net.fkm.drawermenutest.model.UserInfo;
 import net.fkm.drawermenutest.utils.Constants;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class CountdownFragment extends Fragment {
-    public static CountdownFragment instance;
+public class HabitFragment extends Fragment {
+    public static HabitFragment instance;
 
-    private View mContentView;
+    private View mContentView;//布局视图
     private Unbinder unbinder;
-    private Activity mContext;
-    private ArrayList<HabitInfo> habitList;
-    private ListView listView;
+    private ArrayList<HabitInfo> habitList;//用户创建的习惯
+
+    @BindView(R.id.paihanglist)
+    public ListView listView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,14 +44,11 @@ public class CountdownFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mContext = getActivity();
         mContentView = inflater.inflate(R.layout.fragment_countdown, container, false);
         initView();
         initData();
 
         instance = this;
-
-        listView = mContentView.findViewById(R.id.paihanglist);
 
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -75,12 +63,12 @@ public class CountdownFragment extends Fragment {
          HabitDao habitDao = new HabitDao(getContext());
          habitList = habitDao.queryAll(Constants.user.getUserId());
          //创建适配器
-        CountdownFragment.MyListAdapter myListAdapter=new CountdownFragment.MyListAdapter(getContext(),habitList);
+        HabitFragment.MyListAdapter myListAdapter=new HabitFragment.MyListAdapter(getContext(),habitList);
         listView.setAdapter(myListAdapter);
     }
 
     private void initView() {
-        unbinder = ButterKnife.bind(this, mContentView);
+        unbinder = ButterKnife.bind(this, mContentView);//设置为根视图
     }
 
     private void initData() {
@@ -129,7 +117,7 @@ public class CountdownFragment extends Fragment {
         @SuppressLint("ResourceAsColor")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            CountdownFragment.ViewHolder viewHolder = new CountdownFragment.ViewHolder();
+            HabitFragment.ViewHolder viewHolder = new HabitFragment.ViewHolder();
             HabitDao habitDao = new HabitDao(getContext());
 
             if (convertView == null){
@@ -142,7 +130,7 @@ public class CountdownFragment extends Fragment {
 
                 convertView.setTag(viewHolder);
             }else{
-                viewHolder = (CountdownFragment.ViewHolder) convertView.getTag();
+                viewHolder = (HabitFragment.ViewHolder) convertView.getTag();
 
             }
             HabitInfo habitInfo = list.get(position);
@@ -187,6 +175,7 @@ public class CountdownFragment extends Fragment {
                 }
             });
 
+            //监听删除按钮
             viewHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

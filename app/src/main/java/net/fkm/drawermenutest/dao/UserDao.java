@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import net.fkm.drawermenutest.db.DBOpenHelper;
 import net.fkm.drawermenutest.model.UserInfo;
-import net.fkm.drawermenutest.utils.L;
 
 public class UserDao {
     private SQLiteOpenHelper helper;//一个帮助程序类，用于管理数据库创建和版本管理。

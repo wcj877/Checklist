@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import net.fkm.drawermenutest.R;
+import net.fkm.drawermenutest.dao.ListDao;
 import net.fkm.drawermenutest.model.ListInfo;
 import net.fkm.drawermenutest.service.ClockService;
 import net.fkm.drawermenutest.utils.AlertDialogUtil;
@@ -18,11 +19,11 @@ import net.fkm.drawermenutest.utils.AlertDialogUtil;
 //设置对话框视图
 public class ClockActivity extends BaseActivity {
     //震动
-    private Vibrator mVibrator;
-    private ListInfo list;
+    private Vibrator mVibrator;//定义手机震动服务
+    private ListInfo list;//清单
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId() {//设置布局文件
         return R.layout.activity_clock;
     }
 
@@ -33,8 +34,8 @@ public class ClockActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        list = getIntent().getParcelableExtra(ClockService.EXTRA_List);
+        mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);//获取手机震动的服务
+        list = getIntent().getParcelableExtra(ClockService.EXTRA_List);//从信息对像intent中获取清单
         if (list == null) {
             finish();
         }
@@ -54,10 +55,15 @@ public class ClockActivity extends BaseActivity {
             public void onClick(View v) {
                 mVibrator.cancel();//关闭震动
                 alertDialog.dismiss();//关闭退出对话框
+
+                ListDao listDao = new ListDao();
+                //修改时钟是否响应
+                listDao.updateIsClocked(list.getListId(), list.getIsClocked());
+
                 finish();
             }
         });
-        alertDialog.show();
+        alertDialog.show();//显示对话框
     }
 
     @Override

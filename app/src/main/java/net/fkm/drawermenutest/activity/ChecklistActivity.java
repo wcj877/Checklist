@@ -179,6 +179,9 @@ public class ChecklistActivity extends AppCompatActivity implements AdapterView.
                 //判断是否增加
                 if (isIncrease){
                     listDao.addList(checklist);//添加清单
+                    checklist.setListId(listDao.getLatestId());//获取清单id
+                    //添加时钟
+                    clockManager.addAlarm(buildIntent(checklist.getListId()), DateTimeUtil.str2Date(checklist.getTime()));
 
                 } else {
                     listDao.updateList(checklist);//修改清单
@@ -210,12 +213,12 @@ public class ChecklistActivity extends AppCompatActivity implements AdapterView.
         });
 
 
-        //加载清单的内容
+        //若为编辑页则加载清单的内容
         if (!isIncrease){
             spinnertext.setSelection(checklist.getListStatus());
             spinnerimg.setSelection(checklist.getPriority());
-            if ( ! "".equals(checklist.getDate()) && checklist.getDate() != null){
-                bt.setText(checklist.getDate());
+            if ( ! "".equals(checklist.getTime()) && checklist.getTime() != null){
+                bt.setText(checklist.getTime());
             }
             title.setText(checklist.getListTitle());
             description.setText(checklist.getDescribe());
@@ -278,27 +281,28 @@ public class ChecklistActivity extends AppCompatActivity implements AdapterView.
                 }
 
                 ChecklistActivity.this.bt.setText(year + "-" + month + "-" + day);//设置按钮的内容为年月日
-                checklist.setTime(year + "-" + month + "-" + month);
-                checklist.setDate(year + "-" + month + "-" + month);
+                checklist.setTime(year + "-" + month + "-" + day);
+                checklist.setDate(year + "-" + month + "-" + day);
+
+                //时间选择器
+                TimePickerDialog timePickerDialog = new TimePickerDialog(ChecklistActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    //实现监听方法
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                        //设置文本显示内容
+                        System.out.println(("当前时间：日   " + i + ":" + i1));
+                        checklist.setTime(checklist.getTime()+" "+i+":"+i1);
+                        ChecklistActivity.this.bt.setText(checklist.getTime());
+                        System.out.println("时间："+checklist.getTime());
+                    }
+                },calendar.get(Calendar.HOUR),calendar.get(Calendar.MINUTE),false);//记得使用show才能显示！
+
+                timePickerDialog.show();//将时间选择显示在页面上
+
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));//返回年， 月， 日
 
-
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(ChecklistActivity.this, new TimePickerDialog.OnTimeSetListener() {
-            //实现监听方法
-            @Override
-            public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                //设置文本显示内容
-                System.out.println(("当前时间：日   " + i + ":" + i1));
-                checklist.setTime(checklist.getTime()+" "+i+":"+i1);
-                ChecklistActivity.this.bt.setText(checklist.getTime());
-                System.out.println("时间："+checklist.getTime());
-            }
-        },calendar.get(Calendar.HOUR),calendar.get(Calendar.MINUTE),true);//记得使用show才能显示！
-
-        timePickerDialog.show();//将时间选择显示在页面上
-
+        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());//设置最小日期为当前，不能小于当前日期
         datePickerDialog.show();//将日期选择显示在页面上
     }
 

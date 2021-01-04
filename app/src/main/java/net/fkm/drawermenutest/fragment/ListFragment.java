@@ -2,6 +2,7 @@ package net.fkm.drawermenutest.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,13 +36,17 @@ import net.fkm.drawermenutest.R;
 import net.fkm.drawermenutest.activity.ChecklistActivity;
 import net.fkm.drawermenutest.activity.HomeActivity;
 import net.fkm.drawermenutest.dao.ListDao;
+import net.fkm.drawermenutest.manager.ClockManager;
 import net.fkm.drawermenutest.model.ListInfo;
+import net.fkm.drawermenutest.receiver.ClockReceiver;
+import net.fkm.drawermenutest.service.ClockService;
 import net.fkm.drawermenutest.utils.Constants;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import butterknife.BindView;
 import butterknife.Unbinder;
 
 /**
@@ -49,12 +54,13 @@ import butterknife.Unbinder;
  * 显示学习，工作，锻炼等清单
  */
 public class ListFragment extends Fragment {
-
+    //该Activity的实例
     public static ListFragment instance;
 
-    ListView listView;
-    ArrayList<ListInfo> list;
+    public ListView listView;
 
+    ArrayList<ListInfo> list;//显示的全部清单
+    private ClockManager clockManager = ClockManager.getInstance();//时钟管理器
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +72,8 @@ public class ListFragment extends Fragment {
         //给fragment添加布局文件（1.resource:布局的资源id，2.root 填充的根视图，3.attachToRoot 是否将载入的视图绑定到根视图中）
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         instance = this;
-        listView = view.findViewById(R.id.paihanglist);
+
+        listView = view.findViewById(R.id.paihang_list);
 
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -75,14 +82,15 @@ public class ListFragment extends Fragment {
         return view;
     }
 
+    //显示清单
     public void showList(){
         if (Constants.user == null)
             return;
         ListDao listDao = new ListDao(getContext());
-        list = listDao.queryAll(Constants.user.getUserId());
+        list = listDao.queryAll(Constants.user.getUserId());//从database中获取清单
 
-        MyListAdapter myListAdapter=new MyListAdapter(getContext(),list);
-        listView.setAdapter(myListAdapter);
+        MyListAdapter myListAdapter=new MyListAdapter(getContext(),list);//实例化适配器
+        listView.setAdapter(myListAdapter);//设置适配器
     }
 
     class MyListAdapter extends BaseAdapter{
@@ -90,7 +98,7 @@ public class ListFragment extends Fragment {
         ArrayList<ListInfo> list;
 
         public MyListAdapter(Context context, ArrayList<ListInfo> list) {
-            layoutInflater = LayoutInflater.from(context);
+            layoutInflater = LayoutInflater.from(context);//布局填充
             this.list = list;
         }
 
@@ -175,23 +183,22 @@ public class ListFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), ChecklistActivity.class);
-                    intent.putExtra("listInfo", (Parcelable) listInfo);
+                    intent.putExtra("listInfo", (Parcelable) listInfo);//序列化清单保存至对象信息
                     startActivity(intent);
                 }
             });
 
-            //监听删除时间
+            //监听删除事件
             viewHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ListDao dao = new ListDao(getContext());
-                    dao.deleteList(String.valueOf(listInfo.getListId()));
-                    ListFragment.instance.showList();
+                    clockManager.cancelAlarm(buildIntent(listInfo.getListId()));//取消闹钟
+                    dao.deleteList(String.valueOf(listInfo.getListId()));//删除
+                    ListFragment.instance.showList();//刷新显示的清单
                     Toast.makeText(getContext(),"删除成功",Toast.LENGTH_LONG).show();
                 }
             });
-
-
             return convertView;
         }
     }
@@ -201,6 +208,14 @@ public class ListFragment extends Fragment {
         public ImageView priority;
         public ConstraintLayout line;
         public ImageView delete;
+    }
+
+    private PendingIntent buildIntent(int id) {//建立意图
+        Intent intent = new Intent();
+        intent.putExtra(ClockReceiver.EXTRA_List_ID, id);
+        intent.setClass(getContext(), ClockService.class);
+
+        return PendingIntent.getService(getContext(), 0x001, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 }
 

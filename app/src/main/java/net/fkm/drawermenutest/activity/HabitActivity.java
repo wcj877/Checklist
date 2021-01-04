@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import net.fkm.drawermenutest.R;
 import net.fkm.drawermenutest.dao.HabitDao;
-import net.fkm.drawermenutest.fragment.CountdownFragment;
+import net.fkm.drawermenutest.fragment.HabitFragment;
 import net.fkm.drawermenutest.model.HabitInfo;
 import net.fkm.drawermenutest.utils.Constants;
 
@@ -34,7 +34,7 @@ public class HabitActivity extends AppCompatActivity {
         backtrack = findViewById(R.id.iv_return);
 
 
-
+        //监听添加事件
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,7 +50,7 @@ public class HabitActivity extends AppCompatActivity {
                     HabitDao habitDao = new HabitDao(HabitActivity.this);
                     habitDao.addHabit(habitInfo);
 
-                    CountdownFragment.instance.showHabit();
+                    HabitFragment.instance.showHabit();//刷新主页中显示的习惯列表
 
                     Toast.makeText(HabitActivity.this,"添加成功",Toast.LENGTH_LONG).show();
 

@@ -43,11 +43,16 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 "`isClocked` int,"+
                 "`date` varchar(20),"+
                 "`time` varchar(20) );");
-        db.execSQL("insert into `list` values ('1','u_101','收集箱','511321989800201150','0','0','0','0','0','1')");
-        db.execSQL("insert into `list` values ('2','u_101','好号血虚','是打法所发生的','1','0','0','0','0','1')");
-        db.execSQL("insert into `list` values ('3','u_101','学习','案发生的涉人员王鹤润根深蒂固','1','2','0','0','0','1')");
-        db.execSQL("insert into `list` values ('4','u_101','锻炼','而天然气而过的人生观突然','2','3','0','0','0','1')");
-        db.execSQL("insert into `list` values ('5','u_101','工作','而突然规范静态也将','3','2','0','0','0','1')");
+        db.execSQL("insert into `list` values ('1','u_101','收集箱','511321989800201150','0','0','0','0','2020-12-07','1')");
+        db.execSQL("insert into `list` values ('2','u_101','好号血虚','是打法所发生的','1','0','0','0','2020-12-01','1')");
+        db.execSQL("insert into `list` values ('3','u_101','学习','案发生的涉人员王鹤润根深蒂固','1','2','0','0','2020-12-29','1')");
+        db.execSQL("insert into `list` values ('4','u_101','锻炼','而天然气而过的人生观突然','2','3','0','0','2020-12-01','1')");
+        db.execSQL("insert into `list` values ('5','u_101','工作','而突然规范静态也将','3','2','0','0','2020-12-22','1')");
+        db.execSQL("insert into `list` values ('6','u_101','工作','而突然规范静态也将','3','2','0','0','2020-12-22','1')");
+        db.execSQL("insert into `list` values ('7','u_101','工作','而突然规范静态也将','3','2','0','0','2020-12-22','1')");
+        db.execSQL("insert into `list` values ('8','u_101','工作','而突然规范静态也将','3','2','0','0','2020-12-22','1')");
+        db.execSQL("insert into `list` values ('9','u_101','工作','而突然规范静态也将','3','2','0','0','2020-12-22','1')");
+        db.execSQL("insert into `list` values ('10','u_101','工作','而突然规范静态也将','3','2','0','0','2020-12-22','1')");
 
 
         //创建习惯表

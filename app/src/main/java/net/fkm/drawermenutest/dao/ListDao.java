@@ -49,11 +49,47 @@ public class ListDao {
                     sql += "' ORDER BY " + Constants.sortBy + " DESC";
                 }
             }
-        } else if (Constants.isToDay){
+        } else if (Constants.isToDay){//显示今天的清单
 
             String format = Constants.getDate();
 
             sql += " and date = '" + format + "'";
+            if (!Constants.showCompleted){ //是否显示已完成的订单
+                sql += " and isPerfection =0  ";
+                if (Constants.sortBy != null){//排序的字段不为空则执行
+                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
+                }
+            } else{
+                if (Constants.sortBy != null){//排序的字段不为空则执行
+                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
+                }
+            }
+
+        } else if (Constants.isWeek){//显示一周内的清单
+
+            String format = Constants.getWeekDate();
+
+            String date = Constants.getDate();
+
+            sql += " and '" + format + "' <= date  and  date <='" + date +"'";
+            if (!Constants.showCompleted){ //是否显示已完成的订单
+                sql += " and isPerfection =0  ";
+                if (Constants.sortBy != null){//排序的字段不为空则执行
+                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
+                }
+            } else{
+                if (Constants.sortBy != null){//排序的字段不为空则执行
+                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
+                }
+            }
+
+        } else if (Constants.isMonth){//显示一个月内的清单
+
+            String format = Constants.getMonthDate();
+
+            String date = Constants.getDate();
+
+            sql += " and '" + format + "' <= date and  date <='" + date +"'";
             if (!Constants.showCompleted){ //是否显示已完成的订单
                 sql += " and isPerfection =0  ";
                 if (Constants.sortBy != null){//排序的字段不为空则执行
@@ -246,5 +282,45 @@ public class ListDao {
 
         db.close();
         return list;
+    }
+
+    /**
+     * 获取最新的清单的id
+     * @return
+     */
+    public int getLatestId(){
+        db = helper.getReadableDatabase();
+        Cursor cursor;
+        String sql = "select Max(list_id) from list";
+        cursor = db.rawQuery(sql, new String[]{});
+        int result = -1;
+        if (cursor != null && cursor.moveToNext()){
+            result =cursor.getInt(0);
+        }
+        return result;
+    }
+
+    /**
+     * 修改清单闹钟是否已经响应
+     * @param listId
+     * @param isClocked
+     */
+    public void updateIsClocked(int listId, int isClocked){
+        db = helper.getReadableDatabase();
+        Cursor cursor;
+        if (isClocked == 1){
+            isClocked =0;
+        } else {
+            isClocked = 1;
+        }
+
+        cursor = db.rawQuery("update list set isClocked = '" + isClocked + "'  where list_id = '"+ listId +"';",null);
+
+        if (cursor.moveToNext()){
+            cursor.close();
+            db.close();
+        }
+        cursor.close();
+        db.close();
     }
 }

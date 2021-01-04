@@ -11,9 +11,9 @@ import butterknife.ButterKnife;
 public class TestActivity extends BaseActivity {
 
     private String text;
-
-//    @BindView(R.id.tv_text)
-//    TextView tv_text;
+    //将字段绑定到指定ID的视图
+    @BindView(R.id.tv_text)
+    TextView tv_text;
 
     @Override
     protected int getLayoutId() {
@@ -27,9 +27,9 @@ public class TestActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-//        Intent intent = getIntent();
-//        text = intent.getStringExtra("text");
-//        tv_text.setText(String.format("%s测试界面", text));
+        Intent intent = getIntent();
+        text = intent.getStringExtra("text");
+        tv_text.setText(String.format("%s测试界面", text));
     }
 
 

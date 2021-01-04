@@ -138,6 +138,64 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_nav_week"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/week" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:drawableEnd="@drawable/arrow_right"
+                    android:text="最近一周"
+                    android:textColor="@color/colorContent"
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/arrow_right" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_nav_month"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/month_icon" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:drawableEnd="@drawable/arrow_right"
+                    android:text="最近一个月"
+                    android:textColor="@color/colorContent"
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/arrow_right" />
+
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

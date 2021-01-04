@@ -12,6 +12,7 @@ import net.fkm.drawermenutest.application.MemoApplication;
 
 import static android.content.Context.KEYGUARD_SERVICE;
 
+//唤醒手机
 public class WakeLockUtil {
     /**
      * 唤醒手机屏幕并解锁
@@ -21,23 +22,27 @@ public class WakeLockUtil {
         // 获取电源管理器对象
         PowerManager pm = (PowerManager) MemoApplication.getContext()
                 .getSystemService(Context.POWER_SERVICE);
-        assert pm != null;//断言：当条件为true时才继续运行，否则抛出系统运行错误
+
+        if (pm != null)
+            return;
+
         boolean screenOn = pm.isInteractive();//获取电源状态（是否有电）
         if (!screenOn) {
             // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
-            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(
-                    PowerManager.ACQUIRE_CAUSES_WAKEUP |
-                            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, "bright");
+            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP |
+                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, "bright");
             wl.acquire(10000); // 点亮屏幕
             wl.release(); // 释放
         }
         // 屏幕解锁
-        KeyguardManager keyguardManager = (KeyguardManager) MemoApplication.getContext()
-                .getSystemService(KEYGUARD_SERVICE);
-        assert keyguardManager != null;
-        KeyguardManager.KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("unLock");
+        KeyguardManager keyguardManager = (KeyguardManager) MemoApplication.getContext().getSystemService(KEYGUARD_SERVICE);//获取键盘管理对象
+
+        if (keyguardManager != null)
+            return;
+
+        KeyguardManager.KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("unLock");//获取设置键盘锁定/解锁对象
         // 屏幕锁定
-        keyguardLock.reenableKeyguard();
+        keyguardLock.reenableKeyguard();//锁定
         keyguardLock.disableKeyguard(); // 解锁
     }
 }

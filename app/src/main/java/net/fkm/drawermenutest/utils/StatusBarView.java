@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-
+//状态栏视图
 public class StatusBarView extends View {
     public StatusBarView(Context context, AttributeSet attrs) {
         super(context, attrs);

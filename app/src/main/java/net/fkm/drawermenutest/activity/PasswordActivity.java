@@ -22,14 +22,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+//修改密码
 public class PasswordActivity extends BaseActivity {
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_password);
-//    }
-
+    //将字段绑定到指定ID的视图
     @BindView(R.id.password)
     EditText password;
 
@@ -53,8 +48,6 @@ public class PasswordActivity extends BaseActivity {
         ButterKnife.bind(this);
         if (Constants.user == null){
             Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(PasswordActivity.this, HomeActivity.class);
-//            startActivity(intent);
             finish();//关闭此activity页面
         }
     }
@@ -99,9 +92,5 @@ public class PasswordActivity extends BaseActivity {
                 } else {
                     Toast.makeText(this, "密码错误", Toast.LENGTH_SHORT).show();
                 }
-//                break;
-//            default:
-//                break;
-//        }
     }
 }
