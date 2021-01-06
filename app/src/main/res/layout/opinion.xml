@@ -11,35 +11,29 @@
         tools:layout_editor_absoluteX="-16dp"
         tools:layout_editor_absoluteY="-16dp">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/textView17"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="8sp" />
-        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#FFFFFF">
 
-            <ImageButton
+
+            <ImageView
                 android:id="@+id/back"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
                 android:background="#FFFFFF"
+                android:layout_marginLeft="-20dp"
                 app:srcCompat="@drawable/return_img" />
 
             <TextView
                 android:id="@+id/textView14"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="100dp"
                 android:text="意见反馈"
-                android:textColor="#9C27B0"
-                android:textSize="30sp" />
+                android:textColor="#7B68EE"
+                android:textSize="26sp" />
         </TableRow>
 
     </TableLayout>
@@ -51,7 +45,7 @@
         android:layout_marginTop="70dp"
         android:layout_marginLeft="20dp"
         android:text="向我们发送邮件进行反馈"
-        android:textSize="30sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -63,7 +57,7 @@
         android:layout_marginTop="130dp"
         android:layout_marginLeft="20dp"
         android:text="我的所有意见反馈"
-        android:textSize="30dp"
+        android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

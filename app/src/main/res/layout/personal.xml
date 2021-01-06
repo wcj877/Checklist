@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    >
 
     <TableLayout
         android:layout_width="match_parent"
@@ -11,40 +11,34 @@
         android:layout_row="0"
         android:layout_column="0">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textView17"
-                android:layout_width="15dp"
-                android:layout_height="wrap_content"
-                android:textSize="8sp" />
-        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#FFFFFF">
 
             <TextView
                 android:id="@+id/textView26"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:background="#FFFFFF"
+                android:layout_marginLeft="-20dp"
                 app:srcCompat="@drawable/return_img" />
 
             <TextView
                 android:id="@+id/textView14"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="100dp"
                 android:text="个人中心"
-                android:textColor="#9C27B0"
-                android:textSize="30sp" />
+                android:textColor="#7B68EE"
+                android:textSize="26sp" />
         </TableRow>
 
         <TableRow
@@ -64,13 +58,13 @@
 
             <TextView
                 android:id="@+id/textView25"
-                android:layout_width="wrap_content"
+                android:layout_width="10dp"
                 android:layout_height="wrap_content" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton2"
-                android:layout_width="66dp"
-                android:layout_height="66dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="#FFFFFF"
                 app:srcCompat="@mipmap/guide" />
 
@@ -79,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="新手指南"
-                android:textSize="42sp" />
+                android:textSize="20sp" />
 
         </TableRow>
 
@@ -103,10 +97,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton3"
-                android:layout_width="66dp"
-                android:layout_height="66dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="#FFFFFF"
                 app:srcCompat="@mipmap/use" />
 
@@ -115,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="进阶使用"
-                android:textSize="42sp" />
+                android:textSize="20sp" />
 
         </TableRow>
 
@@ -139,10 +133,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton4"
-                android:layout_width="66dp"
-                android:layout_height="66dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="#FFFFFF"
                 app:srcCompat="@mipmap/time" />
 
@@ -151,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="时间管理"
-                android:textSize="42sp" />
+                android:textSize="20sp" />
 
         </TableRow>
 
@@ -175,10 +169,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton5"
-                android:layout_width="66dp"
-                android:layout_height="66dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="#FFFFFF"
                 app:srcCompat="@mipmap/problem" />
 
@@ -187,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="常见问题"
-                android:textSize="42sp" />
+                android:textSize="20sp" />
 
         </TableRow>
 
@@ -211,10 +205,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton6"
-                android:layout_width="66dp"
-                android:layout_height="66dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="#FFFFFF"
                 app:srcCompat="@mipmap/manual" />
 
@@ -223,7 +217,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="用户手册"
-                android:textSize="42sp" />
+                android:textSize="20sp" />
 
         </TableRow>
 
@@ -247,10 +241,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButton7"
-                android:layout_width="66dp"
-                android:layout_height="66dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="#FFFFFF"
                 app:srcCompat="@mipmap/forum" />
 
@@ -259,7 +253,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="论坛"
-                android:textSize="42sp" />
+                android:textSize="20sp" />
 
         </TableRow>
 
