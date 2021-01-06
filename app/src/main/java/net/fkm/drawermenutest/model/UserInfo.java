@@ -6,7 +6,6 @@ public class UserInfo {
     private String userId;
     private String password;
     private int userStutas;
-    private int teme;
     private int userCon;
     private int userTotal;
     private String userDate;
@@ -35,13 +34,6 @@ public class UserInfo {
         this.userStutas = userStutas;
     }
 
-    public int getTeme() {
-        return teme;
-    }
-
-    public void setTeme(int teme) {
-        this.teme = teme;
-    }
 
     public int getUserCon() {
         return userCon;

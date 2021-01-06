@@ -233,6 +233,7 @@ public class HomeActivity extends BaseActivity {
                         break;
                     case R.id.ll_nav_week:
                         //清单切换为最近一周
+                        Constants.listStatus = 0;
                         System.out.println("一周前："+Constants.getWeekDate());
                         Constants.isWeek = true;
                         ListFragment.instance.showList();//刷新显示的清单
@@ -241,6 +242,7 @@ public class HomeActivity extends BaseActivity {
                         break;
                     case R.id.ll_nav_month:
                         //清单切换为最近一个月
+                        Constants.listStatus = 0;
                         System.out.println("一个月前:"+Constants.getMonthDate());
                         Constants.isMonth = true;
                         ListFragment.instance.showList();//刷新显示的清单

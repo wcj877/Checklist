@@ -42,11 +42,11 @@ public class ListDao {
             if (!Constants.showCompleted){ //是否显示已完成的订单
                 sql += " and isPerfection =0  ";
                 if (Constants.sortBy != null){//排序的字段不为空则执行
-                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
+                    sql += " ORDER BY " + Constants.sortBy + " DESC";
                 }
             } else{
                 if (Constants.sortBy != null){//排序的字段不为空则执行
-                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
+                    sql += " ORDER BY " + Constants.sortBy + " DESC";
                 }
             }
         } else if (Constants.isToDay){//显示今天的清单
@@ -57,11 +57,11 @@ public class ListDao {
             if (!Constants.showCompleted){ //是否显示已完成的订单
                 sql += " and isPerfection =0  ";
                 if (Constants.sortBy != null){//排序的字段不为空则执行
-                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
+                    sql += " ORDER BY " + Constants.sortBy + " DESC";
                 }
             } else{
                 if (Constants.sortBy != null){//排序的字段不为空则执行
-                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
+                    sql += " ORDER BY " + Constants.sortBy + " DESC";
                 }
             }
 
@@ -75,11 +75,11 @@ public class ListDao {
             if (!Constants.showCompleted){ //是否显示已完成的订单
                 sql += " and isPerfection =0  ";
                 if (Constants.sortBy != null){//排序的字段不为空则执行
-                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
+                    sql += " ORDER BY " + Constants.sortBy + " DESC";
                 }
             } else{
                 if (Constants.sortBy != null){//排序的字段不为空则执行
-                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
+                    sql += " ORDER BY " + Constants.sortBy + " DESC";
                 }
             }
 
@@ -93,11 +93,11 @@ public class ListDao {
             if (!Constants.showCompleted){ //是否显示已完成的订单
                 sql += " and isPerfection =0  ";
                 if (Constants.sortBy != null){//排序的字段不为空则执行
-                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
+                    sql += " ORDER BY " + Constants.sortBy + " DESC";
                 }
             } else{
                 if (Constants.sortBy != null){//排序的字段不为空则执行
-                    sql += "' ORDER BY " + Constants.sortBy + " DESC";
+                    sql += " ORDER BY " + Constants.sortBy + " DESC";
                 }
             }
 

@@ -30,7 +30,6 @@ public class UserDao {
             UserInfo userInfo=new UserInfo();
             userInfo.setUserId(cursor.getString(cursor.getColumnIndex("user_id")));
             userInfo.setPassword(cursor.getString(cursor.getColumnIndex("password")));
-            userInfo.setTeme(cursor.getInt(cursor.getColumnIndex("teme")));
             userInfo.setUserCon(cursor.getInt(cursor.getColumnIndex("user_con")));
             userInfo.setUserDate(cursor.getString(cursor.getColumnIndex("user_date")));
             userInfo.setUserStutas(cursor.getInt(cursor.getColumnIndex("user_status")));
@@ -61,7 +60,6 @@ public class UserDao {
         contentValues.put("user_id",userId);
         contentValues.put("password",password);
         contentValues.put("user_status",0);
-        contentValues.put("teme",1);
         contentValues.put("user_con",0);
         contentValues.put("user_total",0);
 //        contentValues.put("user_date",);
@@ -99,7 +97,6 @@ public class UserDao {
             UserInfo userInfo=new UserInfo();
             userInfo.setUserId(cursor.getString(cursor.getColumnIndex("user_id")));
             userInfo.setPassword(cursor.getString(cursor.getColumnIndex("password")));
-            userInfo.setTeme(cursor.getInt(cursor.getColumnIndex("teme")));
             userInfo.setUserCon(cursor.getInt(cursor.getColumnIndex("user_con")));
             userInfo.setUserDate(cursor.getString(cursor.getColumnIndex("user_date")));
             userInfo.setUserStutas(cursor.getInt(cursor.getColumnIndex("user_status")));
